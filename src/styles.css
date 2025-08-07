@@ -1,0 +1,17 @@
+body{
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #2a3447 !important;
+    /* color: #7c8fac; */
+}
+
+.custom-swal-title {
+  font-size: 1.2rem !important;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: #374258;
+  color: #7183a3;
+  border: none;
+  padding: 8px;
+}

@@ -1,0 +1,115 @@
+.user-list-container {
+  padding: 20px;
+  color: #7c8fac;
+  border: 1px solid #444;
+  border-radius: 10px;
+}
+
+.user-list-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+table th, table td {
+  padding: 16px;
+  border: 1px solid #444;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination button{
+    border-radius: 10px;
+    background-color: antiquewhite;
+    border: 1px solid #444;
+    font-size: 0.9rem;
+}
+
+.controls{
+    display: flex;
+    justify-content: space-between;
+}
+
+.controls input{
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.controls label select{
+    border-radius: 10px;
+    padding: 2.5px 5px;
+    color: black;
+}
+
+.edit-btn{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: rgb(8, 212, 244);
+  padding: 2px 5px;
+  border: none;
+}
+
+.delete-btn{
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: rgb(244, 75, 86);
+  padding: 2px 5px;
+  border: none;
+}
+
+.provider-btn{
+  color: #49BEFF;
+  border: 1px solid #49BEFF;
+  border-radius: 10px;
+  background-color: transparent;
+  margin-left: 10px;
+}
+
+.provider-btn:hover{
+  color: #ffffff;
+  background-color: #49BEFF;
+  border-radius: 10px;
+}
+
+.provider-btn:active{
+  color: #ffffff;
+  background-color: #49BEFF;
+  border-radius: 10px;
+}
+
+.btn-td{
+  display: flex;
+  justify-content: center;
+}
+
+
+/* ========================================================== */
+
+.card {
+    margin-bottom: 30px;
+}
+
+.bg-light-info {
+  background-color: rgba(34, 54, 98);
+}
+
+input{
+  border: none;
+}

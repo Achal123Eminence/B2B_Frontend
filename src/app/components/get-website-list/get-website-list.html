@@ -1,0 +1,96 @@
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">Replace With mother Panel Name</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" style="margin-bottom: 9px;">
+            <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> <a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/mother-panel-list">Mother Panel List <span style="color: white;"> • </span> </a>Client Lists</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mother-panel-container">
+    <div class="controls">
+        <label>
+            Show
+            <select>
+                <option [value]="10">10</option>
+                <option [value]="25">25</option>
+                <option [value]="50">50</option>
+                <option [value]="100">100</option>
+            </select>
+            entries
+        </label>
+    
+        <input type="text" placeholder="Search" />
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Logo</th>
+                <th>Web Login Image</th>
+                <th>Mobile Login Image</th>
+                <th>Banners</th>
+                <th>Action</th>
+                <th>Portfolio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of websiteList(); let i =$index; track item._id) {
+                <tr>
+                    <td>
+                        <div class="multi-btn">
+                            <img *ngIf="item.website_logo" src="{{item.userId.cloud_image_url}}{{item.website_logo}}/{{item.website_logo_variant}}" alt="" srcset="" width="80" height="80">    
+                            <button class="skyBlueBtn">Edit</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="multi-btn">
+                            <img *ngIf="item.website_logo_web" src="{{item.userId.cloud_image_url}}{{item.website_logo_web}}/{{item.website_logo_web_variant}}" alt="" srcset="" width="80" height="80">
+                            <button class="skyBlueBtn">Edit</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="multi-btn">
+                            <img *ngIf="item.website_logo_mobile" src="{{item.userId.cloud_image_url}}{{item.website_logo_mobile}}/public" alt="" srcset="" width="80" height="80">
+                            <button class="skyBlueBtn">Edit</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="multi-btn">
+                            <button class="btn btn-primary add skyBlueBtn" (click)="openAddBannerSwal(item._id)">Add</button>
+                            <button class="add skyBlueBtn" (click)="openAddCsvBannerSwal(item._id)">CSV</button>
+                            <button class="add greenBtn" routerLink="/get-banners/{{item._id}}">Change</button>                        
+                        </div>
+                    </td>
+                    <td>
+                        <div class="multi-btn">
+                            <button class="add musturdBtn"><i class="fa fa-plus"></i> Body</button>
+                            <button class="add greenBtn"><i class="fa fa-eye"></i> Body</button>
+                            <button class="add greenBtn"><i class="fa fa-eye"></i> Inplay</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="multi-btn" style="gap: 3rem;">
+                            <span>{{item.website_url}}</span>
+                            <div class="last-Btn">
+                                <button class="edit-btn" (click)="refreshComponent()">
+                                    <i class="fas fa-refresh"></i>
+                                    Refresh
+                                </button>
+                                <button class="delete-btn" (click)="confirmAndDeleteUser(item._id)">
+                                    <i class="fas fa-trash-alt"></i> 
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

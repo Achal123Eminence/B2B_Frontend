@@ -1,0 +1,74 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <!-- <a class="navbar-brand" href="#">BetFair2025</a> -->
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)">
+                <i class="fa fa-bars"></i>
+              </a>
+            </li>
+            <li class="nav-item d-none d-lg-block">
+              <a class="nav-link nav-icon-hover" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa fa-search"></i>
+              </a>
+            </li>
+      </ul>
+      <ul class="navbar-nav">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        </li> -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Users
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/create-user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Add User</a></li>
+            <li><a class="dropdown-item" routerLink="/users-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Users List</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Mother Panel
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/add-mother-panel" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Add Mother Panel</a></li>
+            <li><a class="dropdown-item" routerLink="/mother-panel-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Mother Panel List</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Image & URL
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item">Folders</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Image & URL
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" >WebProviders</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" role="button" data-bs-toggle="dropdown">
+            <img
+              src="/assets/Images/user-1.jpg"
+              alt="Profile"
+              class="rounded-circle me-1"
+              style="width: 30px; height: 30px;"
+            />
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

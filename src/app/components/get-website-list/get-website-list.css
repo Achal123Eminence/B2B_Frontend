@@ -1,0 +1,200 @@
+.mother-panel-container {
+  padding: 20px;
+  color: transparent;
+  color: #7c8fac;
+  border: 1px solid #444;
+  border-radius: 10px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+table th, table td {
+  padding: 10px;
+  border: 1px solid #444;
+  font-weight: 500;
+}
+
+table th{
+    text-align: center;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination button{
+    border-radius: 10px;
+    background-color: antiquewhite;
+    border: 1px solid #6f6969;
+    font-size: 0.9rem;
+}
+
+.controls{
+    display: flex;
+    justify-content: space-between;
+}
+
+.controls input{
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.controls label select{
+    border-radius: 10px;
+    padding: 2.5px 5px;
+    color: black;
+}
+
+.add-website{
+  color: #49BEFF;
+  border: 1px solid #49BEFF;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.add-website:hover{
+  color: #ffffff;
+  background-color: #49BEFF;
+  border-radius: 10px;
+}
+
+.add-website:active{
+  color: #ffffff;
+  background-color: #49BEFF;
+  border-radius: 10px;
+}
+
+.edit-btn{
+  background-color: rgb(8, 212, 244);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  padding: 5px;
+  width: 6rem;
+}
+
+.delete-btn{
+  background-color: rgb(244, 75, 86);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  padding: 5px;
+  width: 6rem;
+}
+
+.make-changes{
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: #49BEFF;
+}
+
+.make-changes:hover{
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: #0d8bcf;
+}
+
+.make-changes:active{
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: #0d8bcf;
+}
+
+/* img{
+    width: 32px;
+  height: 32px;
+  border-radius: 50%;
+} */
+
+.multi-btn{
+    display: grid;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.skyBlueBtn{
+    background-color: rgb(8, 212, 244);
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    width: 6rem;
+}
+
+.greenBtn{
+    background-color: #13deb9;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    width: 6rem;
+}
+
+.musturdBtn{
+    background-color: #FFAE1F;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    width: 6rem;
+}
+
+.last-Btn{
+    display: flex;
+    gap: 1rem;
+}
+
+/* ================================================================================================== */
+.card {
+    margin-bottom: 30px;
+}
+
+.bg-light-info {
+  background-color: rgba(34, 54, 98);
+}
+
+/* Add Banner model(start) */
+.modal-content{
+  background-color: #2a3447;
+}
+
+.modal-content input{
+  background-color: #2a3447;
+  color: #7c8fac;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #2a3447;
+  color: #7183a3;
+}
+
+.text-danger{
+  font-size: 0.8rem;
+}
+
+/* Add Banner model(end) */

@@ -1,0 +1,67 @@
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">Users</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> User</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================================================================== -->
+<div class="user-form-container">
+  <!-- <h2>Users</h2>
+  <div class="breadcrumb">Dashboard • User</div> -->
+
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+    <div style="display: flex;gap: 1rem;">
+      <div class="form-row">
+        <label>User Name</label>
+        <input type="text" formControlName="username" />
+        <div class="error" *ngIf="f['username'].touched && f['username'].invalid">Username is required</div>
+      </div>
+    
+      <div class="form-row">
+        <label>Password</label>
+        <input type="password" formControlName="password" />
+        <div class="error" *ngIf="f['password'].touched && f['password'].invalid">Password is required</div>
+      </div>
+    
+      <div class="form-row">
+        <label>Cloudflare Account ID</label>
+        <input type="text" formControlName="cloud_account_id" />
+        <div class="error" *ngIf="f['cloud_account_id'].touched && f['cloud_account_id'].invalid">Account ID is required
+        </div>
+      </div>
+    
+      <div class="form-row">
+        <label>Cloudflare Auth Key</label>
+        <input type="text" formControlName="cloud_auth" />
+        <div class="error" *ngIf="f['cloud_auth'].touched && f['cloud_auth'].invalid">Auth key is required</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Cloudflare Image Url</label>
+      <input type="text" formControlName="cloud_image_url" />
+      <div class="error" *ngIf="f['cloud_image_url'].touched && f['cloud_image_url'].errors?.['required']">
+        Image URL is required
+      </div>
+      <div class="error" *ngIf="f['cloud_image_url'].touched && f['cloud_image_url'].errors?.['pattern']">
+        Enter a valid URL (http/https)
+      </div>
+    </div>
+
+    <div *ngIf="apiError" class="api-error">{{ apiError }}</div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn save"><i class="fa fa-save"></i> Save</button>
+      <button type="button" class="btn cancel" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>

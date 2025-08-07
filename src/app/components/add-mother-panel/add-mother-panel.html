@@ -1,0 +1,55 @@
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">Mother Panel</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> Mother Panel</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================================================================== -->
+
+<div class="user-form-container">
+    <!-- <h2>Create Mother Panel</h2> -->
+    <!-- <div class="breadcrumb">Dashboard • Mother Panel</div> -->
+
+    <form [formGroup]="createMotherPanelForm" (ngSubmit)="onSubmit()">
+        <div class="value-div">
+            <div class="form-row">
+                <label for="userId">Select User</label>
+                <select formControlName="userId" id="userId">
+                    <!-- <option value="">Select User</option> -->
+                    <option *ngFor="let user of userslist()" [value]="user._id">
+                        {{ user.username }}
+                    </option>
+                </select>
+                <div class="error" *ngIf="f['userId'].touched && f['userId'].invalid">
+                    User is required
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="motherPanel">Mother Panel Name</label>
+                <input id="motherPanel" type="text" formControlName="mother_panel"
+                    placeholder="Enter Mother Panel Name" />
+                <div class="error" *ngIf="f['mother_panel'].touched && f['mother_panel'].invalid">
+                    Mother Panel Name is required
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="apiError" class="api-error">{{ apiError }}</div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn save"><i class="fa fa-save"></i>  Save</button>
+            <button type="button" class="btn cancel" (click)="onCancel()">Cancel</button>
+        </div>
+    </form>
+</div>

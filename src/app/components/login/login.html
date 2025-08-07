@@ -1,0 +1,55 @@
+<section class="login-container" aria-label="Login Form">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+    <h2 class="login-title">Sign In</h2>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        type="username"
+        id="email"
+        formControlName="username"
+        placeholder="Enter your username"
+        autocomplete="username"
+        required
+        aria-required="true"
+        [attr.aria-invalid]="loginForm.get('username')?.invalid"
+      />
+      @if (loginForm.get('username')?.touched && loginForm.get('username')?.invalid) {
+        <small class="error">Valid username is required</small>
+      }
+    </div>
+
+    <div class="form-group password-group">
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input
+          [type]="passwordVisible ? 'text' : 'password'"
+          id="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+          aria-required="true"
+          [attr.aria-invalid]="loginForm.get('password')?.invalid"
+        />
+        <button
+          type="button"
+          class="toggle-btn"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="passwordVisible ? 'Hide password' : 'Show password'"
+        >
+          {{ passwordVisible ? '🙈' : '👁️' }}
+        </button>
+      </div>
+      @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+        <small class="error">Password is required</small>
+      }
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid" aria-label="Login">Login</button>
+
+    @if (errorMessage) {
+      <p class="error" role="alert">{{ errorMessage }}</p>
+    }
+  </form>
+</section>

@@ -1,0 +1,116 @@
+<!-- <div class="user-list-container">
+  <div class="controls">
+    <label>
+      Show
+      <select [ngModel]="pageSize()" (ngModelChange)="changePageSize($event)">
+        <option [value]="10">10</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+        <option [value]="100">100</option>
+      </select>
+      entries
+    </label>
+
+    <input
+      type="text"
+      placeholder="Search"
+      [ngModel]="searchQuery()"
+      (ngModelChange)="searchQuery.set($event)"
+    />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Created</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of paginatedUsers()">
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.createdAt | date: 'short' }}</td>
+        <td><img [src]="user.cloud_image_url" width="50" height="50" /></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="changePage(-1)" [disabled]="currentPage() === 1" style="margin-right: 10px;">Previous</button>
+    <span class="page">Page {{ currentPage() }} of {{ totalPages() }}</span>
+    <button (click)="changePage(1)" [disabled]="currentPage() === totalPages()" style="margin-left: 10px;">Next</button>
+  </div>
+</div>
+<div *ngIf="isLoading()">Loading users...</div> -->
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">User List</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" style="margin-bottom: 9px;">
+            <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> User List</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="user-list-container">
+  <div class="controls">
+    <label>
+      Show
+      <select >
+        <option [value]="10">10</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+        <option [value]="100">100</option>
+      </select>
+      entries
+    </label>
+
+    <input
+      type="text"
+      placeholder="Search"
+    />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>User Name</th>
+        <th>Password</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of userslist(); track $index) {
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{ item.username }}</td>
+          <td>{{ item.encrypted_password }}</td>
+          <td class="btn-td">
+            <div>
+              <button class="edit-btn">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="delete-btn" (click)="confirmAndDeleteUser(item._id)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+            <button class="provider-btn" (click)="hitme()">Assign Provider</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    
+  </div>
+</div>

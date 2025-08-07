@@ -1,0 +1,87 @@
+.user-form-container {
+  background-color: transparent;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.breadcrumb {
+  color: #aaa;
+  margin-bottom: 9px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.form-row label {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #444;
+  background: transparent;
+  border-radius: 4px;
+  color: #fff;
+}
+
+select{
+  padding: 8px;
+  border: 1px solid #444;
+  background: #2a3b4c;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.save {
+  background-color: #0fdbaf;
+  color: white;
+}
+
+.cancel {
+  background-color: #ff6f61;
+  color: #fff;
+}
+
+.error{
+    color: red;
+    font-size: 0.8rem;
+    margin-left: 4px;
+}
+
+.value-div{
+    display: flex;
+    gap: 2rem;
+}
+
+.form-row{
+    width: 25%;
+}
+
+/* ===========================================NEW COPY CSS */
+
+.card {
+    margin-bottom: 30px;
+}
+
+.bg-light-info {
+  background-color: rgba(34, 54, 98);
+}

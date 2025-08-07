@@ -1,0 +1,66 @@
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">Mother Panel Lists</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" style="margin-bottom: 9px;">
+            <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> Mother Panel Lists</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mother-panel-container">
+    <div class="controls">
+        <label>
+            Show
+            <select>
+                <option [value]="10">10</option>
+                <option [value]="25">25</option>
+                <option [value]="50">50</option>
+                <option [value]="100">100</option>
+            </select>
+            entries
+        </label>
+    
+        <input type="text" placeholder="Search" />
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>User Name</th>
+                <th>Mother Panel</th>
+                <th>Website</th>
+                <th>Action</th>
+                <th>Portfolio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of motherPanelList(); let i =$index; track item._id) {
+                <tr>
+                    <td>{{i + 1}}</td>
+                    <td>{{item.userId.username}}</td>
+                    <td>{{item.mother_panel}}</td>
+                    <td>
+                        <button class="add-website" (click)="addWebsite(item._id)" >Add Website</button>
+                    </td>
+                    <td>
+                        <button class="edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="delete-btn" (click)="confirmAndDeleteMotherPanel(item._id)">
+                            <i class="fas fa-trash-alt"></i> 
+                        </button>
+                    </td>
+                    <td>
+                        <button class="make-changes" routerLink="/website-list/{{item._id}}">Make Changes</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

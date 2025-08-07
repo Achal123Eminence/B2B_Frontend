@@ -1,0 +1,110 @@
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">{{userName}}</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" style="margin-bottom: 9px;">
+            <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> <a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/mother-panel-list">Mother Panel List <span style="color: white;"> • </span> </a>Add Website</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="user-form-container">
+  <!-- <h2>{{userName}}</h2> -->
+  <!-- <div class="breadcrumb">Dashboard • Mother Panel List • Add Website</div> -->
+  <form [formGroup]="addWebsiteForm" (ngSubmit)="onSubmit()">
+    <div class="sub-input">
+      <div class="form-row">
+        <label>Mother Panel Name</label>
+        <input type="text" [value]="motherPanelName" style="padding: 8px;" readonly />
+        <!-- <div class="error" *ngIf="f['mother_panel'].touched && f['mother_panel'].invalid">Mother Panel is required</div> -->
+      </div>
+    
+      <div class="form-row">
+        <label>Website Name</label>
+        <input type="text" formControlName="website_name" style="padding: 8px;" />
+        <div class="error" *ngIf="f['website_name'].touched && f['website_name'].invalid">Website Name is required</div>
+      </div>
+    
+      <div class="form-row">
+        <label>Website Url</label>
+        <input type="text" formControlName="website_url" style="padding: 8px;" />
+        <div class="error" *ngIf="f['website_url'].touched && f['website_url'].invalid">Website Url is required</div>
+        <div class="error" *ngIf="f['website_url'].touched && f['website_url'].errors?.['pattern']">
+          Enter a valid URL (http/https)
+        </div>
+      </div>
+    
+      <div class="form-row">
+        <label>Refersh EndPoint Url</label>
+        <input type="text" formControlName="refresh_endpoint_url" style="padding: 8px;" />
+        <div class="error" *ngIf="f['refresh_endpoint_url'].touched && f['refresh_endpoint_url'].invalid">Refersh EndPoint
+          Url is required</div>
+        <div class="error" *ngIf="f['refresh_endpoint_url'].touched && f['refresh_endpoint_url'].errors?.['pattern']">
+          Enter a valid URL (http/https)
+        </div>
+      </div>
+    </div>
+    <div class="sub-input">
+      <div class="form-row" style="width: 30%;">
+        <label>Website Logo <span style="color: #dd8c8c;">(Image Size: 158*53)</span></label>
+        <input type="file"  #logoInput (change)="onFileChange($event, 'website_logo')" />
+        <!-- <div class="error" *ngIf="f['website_logo'].touched && f['website_logo'].errors?.['required']">
+            Website Logo is required
+          </div> -->
+      </div>
+
+      <div class="form-row" style="width: 20%;">
+        <label>Website Logo Variant</label>
+        <input type="text" formControlName="website_logo_variant" style="padding: 8px;" />
+      </div>
+    
+      <div class="form-row" style="width: 30%;">
+        <label>Website Web Login Image<span style="color: #dd8c8c;">(Image Size: 250*408)</span></label>
+        <input type="file" #webInput (change)="onFileChange($event, 'website_logo_web')" />
+        <!-- <div class="error" *ngIf="f['website_logo_web'].touched && f['website_logo_web'].errors?.['required']">
+            Website Web Login Image is required
+          </div> -->
+      </div>
+
+      <div class="form-row" style="width: 20%;">
+        <label>Website Web Login Image Variant</label>
+        <input type="text" formControlName="website_logo_web_variant" style="padding: 8px;" />
+      </div>
+    </div>
+    <div class="sub-input">
+      <div class="form-row" style="width: 30%;">
+        <label>Website Mobile Login Image<span style="color: #dd8c8c;">(Image Size: 750*560)</span></label>
+        <input type="file" #mobileInput (change)="onFileChange($event, 'website_logo_mobile')" />
+        <!-- <div class="error" *ngIf="f['website_logo_mobile'].touched && f['website_logo_mobile'].errors?.['required']">
+                Website Mobile Login Image is required
+              </div> -->
+      </div>
+    
+      <div class="form-row" style="width: 20%;">
+        <label>Website Mobile Login Image Variant</label>
+        <input type="text" formControlName="website_logo_mobile_variant" style="padding: 8px;" />
+      </div>
+    
+      <div class="form-row" style="width: 30%;">
+        <label>Website Favicon<span style="color: #dd8c8c;">(Image Size: 48*48)</span></label>
+        <input type="file" #faviconInput (change)="onFileChange($event, 'website_favicon')" />
+        <!-- <div class="error" *ngIf="f['website_favicon'].touched && f['website_favicon'].errors?.['required']">
+                Website Favicon is required
+              </div> -->
+      </div>
+      <div style="width: 20%;"></div>
+    </div>
+
+    <div *ngIf="apiError" class="api-error">{{ apiError }}</div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn save"><i class="fa fa-save"></i> Save</button>
+      <button type="button" class="btn cancel" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>

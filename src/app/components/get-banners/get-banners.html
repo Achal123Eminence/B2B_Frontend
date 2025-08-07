@@ -1,0 +1,75 @@
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">User List</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" style="margin-bottom: 9px;">
+            <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span><a class="text-muted" style="text-decoration: none;color: #aaa !important;" >Website list</a> <span style="color: white;"> • </span> User List</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="user-list-container">
+  <div class="controls">
+    <label>
+      Show
+      <select >
+        <option [value]="10">10</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+        <option [value]="100">100</option>
+      </select>
+      entries
+    </label>
+
+    <input
+      type="text"
+      placeholder="Search"
+    />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Website Name</th>
+        <th>Image</th>
+        <th>Updated At</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of bannerList(); track $index) {
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{ item.panelDetailsId.website_name}}</td>
+          <td>
+            <img src="{{item.userId.cloud_image_url}}{{item.banner}}/{{item.banner_variant}}" alt="" srcset="">
+          </td>
+          <td>{{ item.createdAt}}</td>
+          <td>{{ item.updatedAt}}</td>
+          <td class="btn-td">
+            <div>
+              <button class="edit-btn">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+            <!-- <button class="provider-btn" (click)="hitme()">Assign Provider</button> -->
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    
+  </div>
+</div>
