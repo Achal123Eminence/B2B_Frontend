@@ -96,14 +96,14 @@
           <td>{{ item.encrypted_password }}</td>
           <td class="btn-td">
             <div>
-              <button class="edit-btn">
-                <i class="fas fa-edit"></i>
+              <button class="edit-btn" (click)="openEditUserModal(item)">
+                <i class="fas fa-edit"></i> Edit
               </button>
               <button class="delete-btn" (click)="confirmAndDeleteUser(item._id)">
-                <i class="fas fa-trash-alt"></i>
+                <i class="fas fa-trash-alt"></i> Delete
               </button>
             </div>
-            <button class="provider-btn" (click)="hitme()">Assign Provider</button>
+            <button class="provider-btn">Assign Provider</button>
           </td>
         </tr>
       }
@@ -112,5 +112,44 @@
 
   <div class="pagination">
     
+  </div>
+</div>
+
+
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="background-color: #2a3447; color: white;">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit User Detail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+      </div>
+      <form [formGroup]="editUserForm" (ngSubmit)="onSubmitEditUser()">
+        <div class="modal-body row g-3">
+          <div class="col-md-6">
+            <label>User Name</label>
+            <input formControlName="username" class="form-control" />
+          </div>
+          <div class="col-md-6">
+            <label>Password</label>
+            <input type="password" formControlName="password" class="form-control" />
+          </div>
+          <div class="col-md-6">
+            <label>Cloudflare Account ID</label>
+            <input formControlName="cloud_account_id" class="form-control" />
+          </div>
+          <div class="col-md-6">
+            <label>Cloudflare Auth Key</label>
+            <input formControlName="cloud_auth" class="form-control" />
+          </div>
+          <div class="col-md-12">
+            <label>Cloudflare Image Url</label>
+            <input formControlName="cloud_image_url" class="form-control" />
+          </div>
+        </div>
+        <div class="modal-footer mt-3">
+          <button type="submit" class="btn btn-warning">Submit</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

@@ -40,12 +40,11 @@ export class CreateUser implements OnInit {
       return;
     }
 
-    console.log(this.createUserForm.value, 'this.createUserForm.value');
     this.apiService.createUser(this.createUserForm.value).subscribe({
       next: (res) => {
         this.showToast('User Created successfully');
         this.createUserForm.reset(); // ✅ Reset the form
-        console.log('User created:', res);
+  
         // this.router.navigate(['/users-list']); // redirect to users list or any page
       },
       error: (err) => {

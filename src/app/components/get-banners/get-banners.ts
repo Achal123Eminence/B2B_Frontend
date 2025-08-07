@@ -6,12 +6,11 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-get-banners',
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './get-banners.html',
-  styleUrl: './get-banners.css'
+  styleUrl: './get-banners.css',
 })
-export class GetBanners implements OnInit{
-
+export class GetBanners implements OnInit {
   bannerList = signal<any[]>([]);
   panelDetailId: any;
 
@@ -24,15 +23,54 @@ export class GetBanners implements OnInit{
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe((param: any) => {
       this.panelDetailId = param.get('panelDetailsId');
-      console.log(this.panelDetailId, 'this.panelDetailId');
       this.fetchBanners(this.panelDetailId);
     });
   }
 
-  fetchBanners(id:any){
-    this.apiService.getBanners(id).subscribe((res:any)=>{
+  fetchBanners(id: any) {
+    this.apiService.getBanners(id).subscribe((res: any) => {
       this.bannerList.set(res.data);
-      console.log(this.bannerList(),"banner list")
-    })
+    });
+  }
+
+  async confirmAndDeleteBanners(mId: string) {
+    const confirmed = await this.showConfirmation();
+    if (!confirmed) return;
+
+    this.apiService.deleteBanner(mId).subscribe({
+      next: () => {
+        this.showToast('Mother Panel deleted successfully');
+        this.fetchBanners(this.panelDetailId); // refresh list
+      },
+      error: () => {
+        this.showToast('Failed to delete Mother Panel', true);
+      },
+    });
+  }
+
+  private async showConfirmation(
+    message: string = 'Are you sure you want to delete this Mother Panel?'
+  ): Promise<boolean> {
+    const result = await Swal.fire({
+      title: 'Confirm',
+      text: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    });
+
+    return result.isConfirmed;
+  }
+  private showToast(message: string, isError: boolean = false): void {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: isError ? 'error' : 'success',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+    });
   }
 }

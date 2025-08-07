@@ -31,23 +31,18 @@ export class GetWebsiteList implements OnInit {
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe((param: any) => {
       this.motherPanelId = param.get('panelId');
-      console.log(this.motherPanelId, 'this.motherPanelId');
       this.fetchWebsites(this.motherPanelId);
     });
   }
 
   fetchWebsites(id: any) {
-    console.log(id, 'id');
     this.apiService.getWebsiteList(id).subscribe((res: any) => {
       this.websiteList.set(res.data);
-      console.log(this.websiteList(), 'this.websiteList');
     });
   }
 
   refreshComponent(): void {
-    console.log('i am hittttt');
     const currentUrl = this.router.url;
-    console.log(currentUrl, 'currentUrl');
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([currentUrl]);
@@ -55,7 +50,6 @@ export class GetWebsiteList implements OnInit {
   }
 
   async confirmAndDeleteUser(userId: string) {
-    console.log('delete hit');
     const confirmed = await this.showConfirmation();
     if (!confirmed) return;
 
@@ -138,8 +132,6 @@ export class GetWebsiteList implements OnInit {
         formData.append('image_type', 'image'); // hardcoded as you said
         // formData.append('banner_variant', 'default'); // optional if backend sets default
 
-        console.log('Uploading...', file, 'formData', formData);
-
         // 👇 Now call your uploadBanner API
         this.uploadBanner(formData);
       }
@@ -170,7 +162,7 @@ export class GetWebsiteList implements OnInit {
           'bannerImage'
         ) as HTMLInputElement;
         const file = fileInput?.files?.[0];
-        console.log(file,"file")
+
         if (!file) {
           Swal.showValidationMessage('Please select an CSV file');
           return;
@@ -192,8 +184,6 @@ export class GetWebsiteList implements OnInit {
         formData.append('image_type', 'csv'); // hardcoded as you said
         // formData.append('banner_variant', 'default'); // optional if backend sets default
 
-        console.log('Uploading...', file, 'formData', formData);
-
         // 👇 Now call your uploadBanner API
         this.uploadBanner(formData);
       }
@@ -204,7 +194,6 @@ export class GetWebsiteList implements OnInit {
     // Replace with your service call
     this.apiService.addBanner(this.selectedPanelDetailId, formData).subscribe({
       next: (res) => {
-        console.log('Banner uploaded successfully!', res);
         Swal.fire('Success', 'Banner uploaded!', 'success');
       },
       error: (err) => {

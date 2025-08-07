@@ -41,7 +41,6 @@ export class AddWebite implements OnInit {
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe((param: any) => {
       this.motherPanelId = param.get('panelId');
-      console.log(this.motherPanelId, 'this.motherPanelId');
       this.getUserData(this.motherPanelId);
     });
     this.addWebsiteForm = this.fb.group({
@@ -66,12 +65,9 @@ export class AddWebite implements OnInit {
 
   onSubmit() {
     if (this.addWebsiteForm.invalid) {
-      console.log("Form invalid", this.addWebsiteForm)
       this.addWebsiteForm.markAllAsTouched(); // ✅ Trigger validation display
       return;
     }
-
-    console.log(this.addWebsiteForm,"this.addWebsiteForm",this.addWebsiteForm.value.website_logo_variant,"this.addWebsiteForm.value.website_logo_variant",this.addWebsiteForm.value.website_logo_web_variant,"this.addWebsiteForm.value.website_logo_web_variant",this.addWebsiteForm.value.website_logo_mobile_variant,"this.addWebsiteForm.value.website_logo_mobile_variant")
 
     const formData = new FormData();
     formData.append('userId', this.userId);
@@ -85,8 +81,6 @@ export class AddWebite implements OnInit {
     formData.append('website_logo_web_variant', this.addWebsiteForm.value.website_logo_web_variant);
     formData.append('website_logo_mobile_variant', this.addWebsiteForm.value.website_logo_mobile_variant);
 
-
-    console.log(formData,"formData");
     // Append files
     ['website_logo', 'website_logo_web', 'website_logo_mobile', 'website_favicon'].forEach(field => {
       if (this.fileData[field]) {
@@ -94,10 +88,8 @@ export class AddWebite implements OnInit {
       }
     });
 
-    console.log(formData, 'this.formData.value');
     this.apiService.addWebsite(formData).subscribe({
       next: (res) => {
-        console.log('User created:', res);
         this.showToast('Website  Created successfully');
         this.addWebsiteForm.reset(); // ✅ Reset the form
         this.fileData = {};
@@ -140,7 +132,6 @@ export class AddWebite implements OnInit {
         this.userId = res?.data?.userId?._id
         this.userName = res?.data?.userId?.username
         this.motherPanelName = res?.data?.mother_panel
-        console.log(this.userId, this.userName, "this.userId, this.userName")
       });
   }
 

@@ -13,7 +13,6 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   const router = inject(Router);
   const api = inject(ApiService);
 
-  console.log(token);
   // Clone and add Authorization header if token exists
   const authReq = token
     ? req.clone({
@@ -23,12 +22,8 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
       })
     : req;
 
-  console.log(authReq.headers.get('Authorization'), 'Authorization Header');
-  console.log(authReq,"authReq")  
   return next(authReq).pipe(
     catchError((error) => {
-      console.log(error,"error")
-      console.log(error.status,"error.status");
       if (error.status === 401 || error.status === 403) {
         api.logout(); // Clear user state
         router.navigate(['/login']);

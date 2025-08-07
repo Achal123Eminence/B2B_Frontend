@@ -56,10 +56,10 @@
           <td class="btn-td">
             <div>
               <button class="edit-btn">
-                <i class="fas fa-edit"></i>
+                <i class="fas fa-edit"></i> Edit
               </button>
-              <button class="delete-btn">
-                <i class="fas fa-trash-alt"></i>
+              <button class="delete-btn" (click)="confirmAndDeleteBanners(item._id)">
+                <i class="fas fa-trash-alt"></i> Delete
               </button>
             </div>
             <!-- <button class="provider-btn" (click)="hitme()">Assign Provider</button> -->

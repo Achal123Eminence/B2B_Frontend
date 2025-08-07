@@ -49,11 +49,11 @@
                         <button class="add-website" (click)="addWebsite(item._id)" >Add Website</button>
                     </td>
                     <td>
-                        <button class="edit-btn">
-                            <i class="fas fa-edit"></i>
+                        <button class="edit-btn" (click)="openEditModal(item)">
+                            <i class="fas fa-edit"></i> Edit
                         </button>
                         <button class="delete-btn" (click)="confirmAndDeleteMotherPanel(item._id)">
-                            <i class="fas fa-trash-alt"></i> 
+                            <i class="fas fa-trash-alt"></i> Delete
                         </button>
                     </td>
                     <td>
@@ -63,4 +63,41 @@
             }
         </tbody>
     </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editMotherPanelModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="background: #2a3447; color: white;">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" style="font-size: 1rem;">Edit Mother Panel Detail</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="editForm" (ngSubmit)="onSubmitEditMotherPanel()">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Select User</label>
+              <select class="form-select" formControlName="userId">
+                <option value="">Select User</option>
+                @for (item of userslist(); track $index) {
+                    <option [value]="item._id">{{ item.username }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Mother Panel Name</label>
+              <input type="text" class="form-control" formControlName="mother_panel" placeholder="Enter name" />
+            </div>
+          </div>
+
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-warning px-4" [disabled]="editForm.invalid">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

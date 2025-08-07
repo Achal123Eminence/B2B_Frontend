@@ -37,6 +37,10 @@ export class ApiService {
     return this.http.delete(`${this.baseUrl}/user/remove/${id}`);
   }
 
+  updateUser(userId:string, data:any){
+    return this.http.put(`${this.baseUrl}/user/update/${userId}`,data);
+  }
+
   getMotherPanelList(id?: string):Observable<any>{
     let params = new HttpParams();
     if (id) {
@@ -52,6 +56,10 @@ export class ApiService {
   createMotherPanel(data:any){
     return this.http.post(`${this.baseUrl}/mother-panel/create`,data)
   };
+
+  updateMotherPanel(motherPanelId:string,data:any){
+    return this.http.put(`${this.baseUrl}/mother-panel/update/${motherPanelId}`,data);
+  }
 
   addWebsite(data:any){
     return this.http.post(`${this.baseUrl}/details/createPanelDetails`,data);
@@ -75,5 +83,9 @@ export class ApiService {
 
   addBanner(id:any,data:any){
     return this.http.post(`${this.baseUrl}/banner/add/${id}`,data);
+  }
+
+  deleteBanner(id:any){
+    return this.http.delete(`${this.baseUrl}/banner/remove/${id}`);
   }
 }

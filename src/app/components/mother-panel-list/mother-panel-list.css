@@ -130,3 +130,11 @@ table th, table td {
 input{
   border: none;
 }
+
+.modal input {
+  padding: 8px;
+  border: 1px solid #444;
+  background: #374258;
+  border-radius: 4px;
+  color: #fff;
+}
