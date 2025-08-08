@@ -10,10 +10,12 @@ import { ApiService } from '../../core/services/api-service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-get-website-list',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './get-website-list.html',
   styleUrl: './get-website-list.css',
 })
@@ -21,11 +23,16 @@ export class GetWebsiteList implements OnInit {
   websiteList = signal<any[]>([]);
   motherPanelId: any;
   selectedPanelDetailId: string | null = null;
+  editPanelForm!: FormGroup;
+  selectedPanelId: string | null = null;
+  fileData: any = {};
+  imagePreviews: any = {};
 
   constructor(
     private apiService: ApiService,
     private activeRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -33,11 +40,24 @@ export class GetWebsiteList implements OnInit {
       this.motherPanelId = param.get('panelId');
       this.fetchWebsites(this.motherPanelId);
     });
+    this.editPanelForm = this.fb.group({
+      website_name: [''],
+      website_url: ['', [Validators.pattern(/^(http|https):\/\/[^ "]+$/)]],
+      refresh_endpoint_url: [
+        '',
+        [Validators.pattern(/^(http|https):\/\/[^ "]+$/)],
+      ],
+      website_logo_variant: [''],
+      website_logo_web_variant: [''],
+      website_logo_mobile_variant: [''],
+      website_favicon_variant: [''],
+    });
   }
 
   fetchWebsites(id: any) {
     this.apiService.getWebsiteList(id).subscribe((res: any) => {
       this.websiteList.set(res.data);
+      console.log(this.websiteList())
     });
   }
 
@@ -194,12 +214,116 @@ export class GetWebsiteList implements OnInit {
     // Replace with your service call
     this.apiService.addBanner(this.selectedPanelDetailId, formData).subscribe({
       next: (res) => {
-        Swal.fire('Success', 'Banner uploaded!', 'success');
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Banner Added successfully',
+            showConfirmButton: false,
+            timer: 2000, // Close after 2 seconds
+          });
       },
       error: (err) => {
         console.error('Error uploading banner:', err);
         Swal.fire('Error', 'Something went wrong!', 'error');
       },
     });
+  }
+
+  openEditPanelModal(panel: any) {
+    this.selectedPanelId = panel._id;
+
+    this.editPanelForm.patchValue({
+      website_name: panel.website_name || '',
+      website_url: panel.website_url || '',
+      refresh_endpoint_url: panel.refresh_endpoint_url || '',
+      website_logo_variant: panel.website_logo_variant || '',
+      website_logo_web_variant: panel.website_logo_web_variant || '',
+      website_logo_mobile_variant: panel.website_logo_mobile_variant || '',
+      website_favicon_variant: panel.website_favicon_variant || '',
+    });
+
+    this.imagePreviews = {
+      website_logo: panel.website_logo
+        ? `${panel.userId.cloud_image_url}${panel.website_logo}/${panel.website_logo_variant}`
+        : null,
+      website_logo_web: panel.website_logo_web
+        ? `${panel.userId.cloud_image_url}${panel.website_logo_web}/${panel.website_logo_web_variant}`
+        : null,
+      website_logo_mobile: panel.website_logo_mobile
+        ? `${panel.userId.cloud_image_url}${panel.website_logo_mobile}/${panel.website_logo_mobile_variant}`
+        : null,
+      website_favicon: panel.website_favicon
+        ? `${panel.userId.cloud_image_url}${panel.website_favicon}/${panel.website_favicon_variant}`
+        : null,
+    };
+
+    console.log(this.imagePreviews,"this.imagePreviews");
+
+    this.fileData = {};
+
+    const modalEl = document.getElementById('editPanelModal');
+    if (modalEl) {
+      const modalInstance = new bootstrap.Modal(modalEl);
+      modalInstance.show();
+    }
+  }
+
+  onFileChange(event: any, field: string) {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileData[field] = file;
+    }
+  }
+
+  onSubmitEditPanel(): void {
+    if (!this.selectedPanelId || this.editPanelForm.invalid) return;
+
+    const formData = new FormData();
+
+    Object.entries(this.editPanelForm.value).forEach(([key, value]) => {
+      if (
+        typeof value === 'string' ||
+        typeof value === 'number' ||
+        typeof value === 'boolean'
+      ) {
+        formData.append(key, String(value));
+      }
+    });
+
+    [
+      'website_logo',
+      'website_logo_web',
+      'website_logo_mobile',
+      'website_favicon',
+    ].forEach((field) => {
+      if (this.fileData[field]) {
+        formData.append(field, this.fileData[field]);
+      }
+    });
+
+    this.apiService
+      .updateWebsite(this.selectedPanelId, formData)
+      .subscribe({
+        next: (res) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Website updated successfully',
+            showConfirmButton: false,
+            timer: 2000, // Close after 2 seconds
+          });
+
+          const modalEl = document.getElementById('editPanelModal');
+          const modalInstance = bootstrap.Modal.getInstance(modalEl!);
+          modalInstance?.hide();
+
+          this.editPanelForm.reset();
+          this.fileData = {};
+          this.fetchWebsites(this.motherPanelId); // refetch the list if needed
+        },
+        error: (err) => {
+          Swal.fire('Error', err.error?.message || 'Update failed', 'error');
+        },
+      });
   }
 }

@@ -55,7 +55,7 @@
           <td>{{ item.updatedAt}}</td>
           <td class="btn-td">
             <div>
-              <button class="edit-btn">
+              <button class="edit-btn" (click)="openAddBannerSwal(item._id,item)">
                 <i class="fas fa-edit"></i> Edit
               </button>
               <button class="delete-btn" (click)="confirmAndDeleteBanners(item._id)">

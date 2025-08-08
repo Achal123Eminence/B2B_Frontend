@@ -45,19 +45,19 @@
                     <td>
                         <div class="multi-btn">
                             <img *ngIf="item.website_logo" src="{{item.userId.cloud_image_url}}{{item.website_logo}}/{{item.website_logo_variant}}" alt="" srcset="" width="80" height="80">    
-                            <button class="skyBlueBtn">Edit</button>
+                            <button class="skyBlueBtn" (click)="openEditPanelModal(item)">Edit</button>
                         </div>
                     </td>
                     <td>
                         <div class="multi-btn">
                             <img *ngIf="item.website_logo_web" src="{{item.userId.cloud_image_url}}{{item.website_logo_web}}/{{item.website_logo_web_variant}}" alt="" srcset="" width="80" height="80">
-                            <button class="skyBlueBtn">Edit</button>
+                            <button class="skyBlueBtn" (click)="openEditPanelModal(item)">Edit</button>
                         </div>
                     </td>
                     <td>
                         <div class="multi-btn">
-                            <img *ngIf="item.website_logo_mobile" src="{{item.userId.cloud_image_url}}{{item.website_logo_mobile}}/public" alt="" srcset="" width="80" height="80">
-                            <button class="skyBlueBtn">Edit</button>
+                            <img *ngIf="item.website_logo_mobile" src="{{item.userId.cloud_image_url}}{{item.website_logo_mobile}}/{{item.website_logo_mobile_variant}}" alt="" srcset="" width="80" height="80">
+                            <button class="skyBlueBtn" (click)="openEditPanelModal(item)">Edit</button>
                         </div>
                     </td>
                     <td>
@@ -93,4 +93,95 @@
             }
         </tbody>
     </table>
+</div>
+
+
+<div class="modal fade" id="editPanelModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content" style="background-color: #2a3447; color: white;">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Panel Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+      </div>
+      <form [formGroup]="editPanelForm" (ngSubmit)="onSubmitEditPanel()">
+        <div class="modal-body row g-3">
+          <!-- Website Info -->
+          <div class="col-md-4">
+            <label>Website Name</label>
+            <input formControlName="website_name" class="form-control" style="padding: 8px;" />
+          </div>
+          <div class="col-md-4">
+            <label>Website URL</label>
+            <input formControlName="website_url" class="form-control" style="padding: 8px;" />
+          </div>
+          <div class="col-md-4">
+            <label>Refresh Endpoint URL</label>
+            <input formControlName="refresh_endpoint_url" class="form-control" style="padding: 8px;" />
+          </div>
+
+          <!-- Logo Fields -->
+          <div class="col-md-3">
+            <label>Website Logo</label>
+            <input type="file" (change)="onFileChange($event, 'website_logo')" class="form-control" />
+          </div>
+          <div class="col-md-3">
+            <label>Website Logo Variant</label>
+            <input formControlName="website_logo_variant" class="form-control" style="padding: 8px;" />
+          </div>
+
+          <div class="col-md-3">
+            <label>Website Web Login Image</label>
+            <input type="file" (change)="onFileChange($event, 'website_logo_web')" class="form-control" />
+          </div>
+          <div class="col-md-3">
+            <label>Web Login Image Variant</label>
+            <input formControlName="website_logo_web_variant" class="form-control" style="padding: 8px;" />
+          </div>
+
+          <!-- Iamge start -->
+
+          <div class="col-md-6">
+            <img src="{{imagePreviews.website_logo}}" height="80" width="80" alt="" srcset="">
+          </div>
+          <div class="col-md-6">
+            <img src="{{imagePreviews.website_logo_web}}" height="80" width="80" alt="" srcset="">
+          </div>
+
+          <!-- image end -->
+
+          <div class="col-md-3">
+            <label>Mobile Login Image</label>
+            <input type="file" (change)="onFileChange($event, 'website_logo_mobile')" class="form-control" />
+          </div>
+          <div class="col-md-3">
+            <label>Mobile Login Image Variant</label>
+            <input formControlName="website_logo_mobile_variant" class="form-control" style="padding: 8px;" />
+          </div>
+
+          <div class="col-md-3">
+            <label>Favicon</label>
+            <input type="file" (change)="onFileChange($event, 'website_favicon')" class="form-control" />
+          </div>
+          <div class="col-md-3">
+            <label>Favicon Variant</label>
+            <input formControlName="website_favicon_variant" class="form-control" style="padding: 8px;" />
+          </div>
+
+          <!-- Iamge start -->
+
+          <div class="col-md-6">
+            <img src="{{imagePreviews.website_logo_mobile}}" height="80" width="80" alt="" srcset="">
+          </div>
+          <div class="col-md-6">
+            <img src="{{imagePreviews.website_favicon}}" height="80" width="80" alt="" srcset="">
+          </div>
+
+          <!-- image end -->
+        </div>
+        <div class="modal-footer mt-3">
+          <button type="submit" class="btn btn-warning">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

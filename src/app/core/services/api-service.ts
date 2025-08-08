@@ -73,6 +73,10 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/details/getPanelDetails`,{ params })
   }
 
+  updateWebsite(panelDetailId:string,data:FormData){
+    return this.http.put(`${this.baseUrl}/details/updatePanelDetails/${panelDetailId}`,data);
+  }
+
   deleteWebsite(id:any){
     return this.http.delete(`${this.baseUrl}/details/remove/${id}`);
   }
@@ -87,5 +91,9 @@ export class ApiService {
 
   deleteBanner(id:any){
     return this.http.delete(`${this.baseUrl}/banner/remove/${id}`);
+  }
+
+  updateBanner(bannerId:any,data:FormData){
+    return this.http.put(`${this.baseUrl}/banner/update/${bannerId}`,data);
   }
 }
