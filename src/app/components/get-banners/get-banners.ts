@@ -13,8 +13,9 @@ import { CommonModule } from '@angular/common';
 export class GetBanners implements OnInit {
   bannerList = signal<any[]>([]);
   panelDetailId: any;
-
+  websiteName: any;
   selectedBannerId: string | null = null;
+  loading = false;
 
   constructor(
     private apiService: ApiService,
@@ -26,26 +27,40 @@ export class GetBanners implements OnInit {
     this.activeRoute.paramMap.subscribe((param: any) => {
       this.panelDetailId = param.get('panelDetailsId');
       this.fetchBanners(this.panelDetailId);
+      this.getPanelDetailsData(this.panelDetailId);
     });
   }
 
   fetchBanners(id: any) {
-    this.apiService.getBanners(id).subscribe((res: any) => {
-      this.bannerList.set(res.data);
-      console.log(this.bannerList());
-    });
+    this.loading = true;
+    this.apiService.getBanners(id).subscribe(
+      (res: any) => {
+        this.loading = false;
+        this.bannerList.set(res.data);
+        console.log(this.bannerList());
+      },
+      (err) => {
+        this.loading = false;
+        this.showToast('Failed to get banners', true);
+        console.error('Failed to get banners', err);
+      }
+    );
   }
 
   async confirmAndDeleteBanners(mId: string) {
     const confirmed = await this.showConfirmation();
     if (!confirmed) return;
 
+    this.loading = true;
+
     this.apiService.deleteBanner(mId).subscribe({
       next: () => {
+        this.loading = false;
         this.showToast('Mother Panel deleted successfully');
         this.fetchBanners(this.panelDetailId); // refresh list
       },
       error: () => {
+        this.loading = false;
         this.showToast('Failed to delete Mother Panel', true);
       },
     });
@@ -126,15 +141,34 @@ export class GetBanners implements OnInit {
 
   uploadBanner(formData: FormData): void {
     // Replace with your service call
+    this.loading = true;
     this.apiService.updateBanner(this.selectedBannerId, formData).subscribe({
       next: (res) => {
-        this.showToast('Banner updated successfully')
+        this.loading = false;
+        this.showToast('Banner updated successfully');
         this.fetchBanners(this.panelDetailId);
       },
       error: (err) => {
+        this.loading = false;
         console.error('Error uploading banner:', err);
         Swal.fire('Error', 'Something went wrong!', 'error');
       },
     });
+  }
+
+  getPanelDetailsData(id: any) {
+    this.loading = true;
+    this.apiService.getSingleWebsiteList(id).subscribe(
+      (res: any) => {
+        this.loading = false;
+        this.websiteName = res.data.website_name;
+        console.log(this.websiteName, 'this.websiteName');
+      },
+      (err) => {
+        this.loading = false;
+        this.showToast('Failed to get panel details', true);
+        console.error('Failed to get panel details', err);
+      }
+    );
   }
 }

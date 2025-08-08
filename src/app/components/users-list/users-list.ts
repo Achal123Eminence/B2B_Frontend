@@ -17,6 +17,7 @@ export class UsersList implements OnInit {
   private router = inject(Router);
   editUserForm!: FormGroup;
   selectedUserId: string | null = null;
+  loading:any;
 
   constructor(private apiService: ApiService,private fb: FormBuilder) {}
 
@@ -35,21 +36,31 @@ export class UsersList implements OnInit {
   }
 
   fetchUsers() {
+    this.loading = true;
     this.apiService.getUserList().subscribe((res: any) => {
+      this.loading = false;
       this.userslist.set(res?.data?.users || []);
-    });
+    },
+      (err) => {
+        this.loading = false;
+        console.error('Failed to fetch users', err);
+      });
   }
 
   async confirmAndDeleteUser(userId: string) {
     const confirmed = await this.showConfirmation();
     if (!confirmed) return;
 
+    this.loading = true;
+
     this.apiService.deleteUser(userId).subscribe({
       next: () => {
+        this.loading = false;
         this.showToast('User deleted successfully');
         this.fetchUsers(); // refresh list
       },
       error: () => {
+        this.loading = false;
         this.showToast('Failed to delete user', true);
       },
     });
@@ -109,16 +120,11 @@ export class UsersList implements OnInit {
       delete payload.password; // Don't send empty password
     }
 
+    this.loading = true;
     this.apiService.updateUser(this.selectedUserId, payload).subscribe({
       next: (res) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'User updated successfully',
-          showConfirmButton: false,
-          timer: 2000, // Close after 2 seconds
-        });
-
+        this.loading = false;
+        this.showToast('User updated successfully');
         //Close Bootstrap modal
         const modalEl = document.getElementById('editUserModal');
         const modalInstance = bootstrap.Modal.getInstance(modalEl!);
@@ -130,7 +136,8 @@ export class UsersList implements OnInit {
         this.fetchUsers();
       },
       error: (err) => {
-        Swal.fire('Error', err.error?.message || 'Update failed', 'error');
+        this.loading = false;
+        this.showToast('Update failed',true);
       },
     });
   }

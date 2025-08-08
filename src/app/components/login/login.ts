@@ -35,10 +35,7 @@ export class Login implements OnInit{
       this.apiService.login(this.loginForm.value).subscribe({
         next: (res: any) => {
           const token = res.token;
-          if (token) {
-            // localStorage.setItem('auth_token', token); // Save token
-            this.UserService.setToken(token);
-          }
+          this.UserService.setToken(token);
           this.router.navigate(['/home'])
         },
         error: (err: any) => {

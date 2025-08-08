@@ -18,6 +18,7 @@ export class MotherPanelList implements OnInit {
   editForm!: FormGroup;
   selectedId: string | null = null;
   userslist = signal<any[]>([]);
+  loading:any;
 
   constructor(private apiService: ApiService, private fb: FormBuilder) {}
 
@@ -31,17 +32,29 @@ export class MotherPanelList implements OnInit {
   }
 
   getUsersList() {
+    this.loading =true;
     this.apiService.getUserList().subscribe((res: any) => {
+      this.loading = false;
       this.userslist.set(res?.data?.users || []);
       console.log(this.userslist());
-    });
+    },
+      (err) => {
+        this.loading = false;
+        console.error('Failed to fetch users', err);
+      });
   }
 
   getmotherPanel() {
+    this.loading = true
     this.apiService.getMotherPanelList().subscribe((res: any) => {
+      this.loading = false
       this.motherPanelList.set(res?.data?.items || []);
       console.log(this.motherPanelList());
-    });
+    },
+      (err) => {
+        this.loading = false;
+        console.error('Failed to Mother panels', err);
+      });
   }
 
   async confirmAndDeleteMotherPanel(mId: string) {
@@ -49,12 +62,15 @@ export class MotherPanelList implements OnInit {
     const confirmed = await this.showConfirmation();
     if (!confirmed) return;
 
+    this.loading = true
     this.apiService.deleteMotherPanel(mId).subscribe({
       next: () => {
+        this.loading = false;
         this.showToast('Mother Panel deleted successfully');
         this.getmotherPanel(); // refresh list
       },
       error: () => {
+        this.loading = false;
         this.showToast('Failed to delete Mother Panel', true);
       },
     });
@@ -88,12 +104,10 @@ export class MotherPanelList implements OnInit {
   }
 
   addWebsite(id: any) {
-    console.log(id, 'add web hit');
     this.router.navigate([`add-website/${id}`]);
   }
 
   getWebsite(id: any) {
-    console.log(id, 'add web hit');
     this.router.navigate([`website-list/${id}`]);
   }
   openEditModal(panel: any) {
@@ -108,20 +122,13 @@ export class MotherPanelList implements OnInit {
   }
 
   onSubmitEditMotherPanel() {
+    this.loading = true
     if (this.editForm.invalid || !this.selectedId) return;
 
     this.apiService.updateMotherPanel(this.selectedId, this.editForm.value).subscribe({
       next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Mother Panel updated successfully',
-          timer: 2000,
-          showConfirmButton: false,
-          toast: true,
-          position: 'top-end',
-          timerProgressBar: true,
-        });
-
+        this.loading = false;
+        this.showToast('Mother Panel updated successfully')
         this.editForm.reset();
         const modalEl = document.getElementById('editMotherPanelModal');
         if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
@@ -129,7 +136,8 @@ export class MotherPanelList implements OnInit {
         this.getmotherPanel(); // Refresh table
       },
       error: (err) => {
-        Swal.fire('Error', err?.error?.message || 'Update failed', 'error');
+        this.showToast('Update failed');
+        this.loading = false;
       }
     });
 

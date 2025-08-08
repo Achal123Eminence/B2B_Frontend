@@ -2,7 +2,7 @@
   <div class="card-body px-4 py-2">
     <div class="row align-items-center">
       <div class="col-9">
-        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">Replace With mother Panel Name</h4>
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">{{motherPanelName}} Website List</h4>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb" style="margin-bottom: 9px;">
             <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> <a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/mother-panel-list">Mother Panel List <span style="color: white;"> • </span> </a>Client Lists</li>
@@ -130,6 +130,26 @@
           </div>
 
           <div class="col-md-3">
+            <label>Website Logo 2</label>
+            <input type="file" (change)="onFileChange($event, 'website_logo_second')" class="form-control" />
+          </div>
+          <div class="col-md-3">
+            <label>Website Logo 2 Variant</label>
+            <input formControlName="website_logo_variant_second" class="form-control" style="padding: 8px;" />
+          </div>
+
+          <!-- Iamge start -->
+
+          <div class="col-md-6">
+            <img *ngIf="imagePreviews.website_logo" src="{{imagePreviews.website_logo}}" height="80" width="80" alt="" srcset="">
+          </div>
+          <div class="col-md-6">
+            <img *ngIf="imagePreviews.website_logo_second" src="{{imagePreviews.website_logo_second}}" height="80" width="80" alt="" srcset="">
+          </div>
+
+          <!-- image end -->
+
+          <div class="col-md-3">
             <label>Website Web Login Image</label>
             <input type="file" (change)="onFileChange($event, 'website_logo_web')" class="form-control" />
           </div>
@@ -138,17 +158,6 @@
             <input formControlName="website_logo_web_variant" class="form-control" style="padding: 8px;" />
           </div>
 
-          <!-- Iamge start -->
-
-          <div class="col-md-6">
-            <img src="{{imagePreviews.website_logo}}" height="80" width="80" alt="" srcset="">
-          </div>
-          <div class="col-md-6">
-            <img src="{{imagePreviews.website_logo_web}}" height="80" width="80" alt="" srcset="">
-          </div>
-
-          <!-- image end -->
-
           <div class="col-md-3">
             <label>Mobile Login Image</label>
             <input type="file" (change)="onFileChange($event, 'website_logo_mobile')" class="form-control" />
@@ -156,6 +165,15 @@
           <div class="col-md-3">
             <label>Mobile Login Image Variant</label>
             <input formControlName="website_logo_mobile_variant" class="form-control" style="padding: 8px;" />
+          </div>
+
+          <!-- Iamge start -->
+
+          <div class="col-md-6">
+            <img *ngIf="imagePreviews.website_logo_web" src="{{imagePreviews.website_logo_web}}" height="80" width="80" alt="" srcset="">
+          </div>
+          <div class="col-md-6">
+            <img *ngIf="imagePreviews.website_logo_mobile" src="{{imagePreviews.website_logo_mobile}}" height="80" width="80" alt="" srcset="">
           </div>
 
           <div class="col-md-3">
@@ -167,14 +185,13 @@
             <input formControlName="website_favicon_variant" class="form-control" style="padding: 8px;" />
           </div>
 
-          <!-- Iamge start -->
-
           <div class="col-md-6">
-            <img src="{{imagePreviews.website_logo_mobile}}" height="80" width="80" alt="" srcset="">
+            <img *ngIf="imagePreviews.website_favicon" src="{{imagePreviews.website_favicon}}" height="80" width="80" alt="" srcset="">
           </div>
           <div class="col-md-6">
-            <img src="{{imagePreviews.website_favicon}}" height="80" width="80" alt="" srcset="">
+            <!-- <img *ngIf="imagePreviews.website_logo_mobile" src="{{imagePreviews.website_logo_mobile}}" height="80" width="80" alt="" srcset=""> -->
           </div>
+          
 
           <!-- image end -->
         </div>
@@ -184,4 +201,8 @@
       </form>
     </div>
   </div>
+</div>
+
+<div class="loader-overlay" *ngIf="loading">
+  <div class="spinner"></div>
 </div>

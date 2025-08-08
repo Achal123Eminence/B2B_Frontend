@@ -1,4 +1,4 @@
-<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;" >
   <div class="card-body px-4 py-2">
     <div class="row align-items-center">
       <div class="col-9">
@@ -62,7 +62,25 @@
         <label>Website Logo Variant</label>
         <input type="text" formControlName="website_logo_variant" style="padding: 8px;" />
       </div>
-    
+      <!-- -------------- -->
+
+      <div class="form-row" style="width: 30%;">
+        <label>Website Logo 2<span style="color: #dd8c8c;">(Image Size: 158*53)</span></label>
+        <input type="file"  #logoInput2 (change)="onFileChange($event, 'website_logo_second')" />
+        <!-- <div class="error" *ngIf="f['website_logo'].touched && f['website_logo'].errors?.['required']">
+            Website Logo is required
+          </div> -->
+      </div>
+
+      <div class="form-row" style="width: 20%;">
+        <label>Website Logo 2 Variant</label>
+        <input type="text" formControlName="website_logo_variant_second" style="padding: 8px;" />
+      </div>
+
+      <!-- --------------- -->
+    </div>
+    <div class="sub-input">
+
       <div class="form-row" style="width: 30%;">
         <label>Website Web Login Image<span style="color: #dd8c8c;">(Image Size: 250*408)</span></label>
         <input type="file" #webInput (change)="onFileChange($event, 'website_logo_web')" />
@@ -75,8 +93,8 @@
         <label>Website Web Login Image Variant</label>
         <input type="text" formControlName="website_logo_web_variant" style="padding: 8px;" />
       </div>
-    </div>
-    <div class="sub-input">
+
+
       <div class="form-row" style="width: 30%;">
         <label>Website Mobile Login Image<span style="color: #dd8c8c;">(Image Size: 750*560)</span></label>
         <input type="file" #mobileInput (change)="onFileChange($event, 'website_logo_mobile')" />
@@ -89,7 +107,9 @@
         <label>Website Mobile Login Image Variant</label>
         <input type="text" formControlName="website_logo_mobile_variant" style="padding: 8px;" />
       </div>
-    
+    </div>
+
+    <div class="sub-input">
       <div class="form-row" style="width: 30%;">
         <label>Website Favicon<span style="color: #dd8c8c;">(Image Size: 48*48)</span></label>
         <input type="file" #faviconInput (change)="onFileChange($event, 'website_favicon')" />
@@ -107,4 +127,8 @@
       <button type="button" class="btn cancel" (click)="onCancel()">Cancel</button>
     </div>
   </form>
+</div>
+
+<div class="loader-overlay" *ngIf="loading">
+  <div class="spinner"></div>
 </div>

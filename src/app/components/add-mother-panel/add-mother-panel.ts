@@ -18,6 +18,7 @@ export class AddMotherPanel implements OnInit {
   createMotherPanelForm!: FormGroup;
   apiError: string | null = null;
   userslist = signal<any[]>([]);
+  loading = false; 
 
   constructor(
     private fb: FormBuilder,
@@ -39,11 +40,14 @@ export class AddMotherPanel implements OnInit {
   }
 
   getUsers() {
+    this.loading = true
     this.apiService.getUserList().subscribe({
       next: (res: any) => {
+        this.loading = false;
         this.userslist.set(res?.data?.users || []);
       },
       error: (err) => {
+        this.loading = false;
         console.error('Failed to fetch users', err);
       }
     });
@@ -55,12 +59,15 @@ export class AddMotherPanel implements OnInit {
       return;
     }
 
+    this.loading = true
     this.apiService.createMotherPanel(this.createMotherPanelForm.value).subscribe({
       next: (res) => {
+        this.loading = false;
         this.showToast('Mother Panel created successfully');
         this.createMotherPanelForm.reset();
       },
       error: (err) => {
+        this.loading = false
         this.showToast('Failed to Create Mother Panel', true);
         this.apiError = err?.error?.message || 'API Error';
       }

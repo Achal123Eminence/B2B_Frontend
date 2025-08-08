@@ -27,6 +27,10 @@ export class GetWebsiteList implements OnInit {
   selectedPanelId: string | null = null;
   fileData: any = {};
   imagePreviews: any = {};
+  userId: any;
+  userName:any;
+  motherPanelName:any;
+  loading:any;
 
   constructor(
     private apiService: ApiService,
@@ -38,6 +42,7 @@ export class GetWebsiteList implements OnInit {
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe((param: any) => {
       this.motherPanelId = param.get('panelId');
+      this.getUserData(this.motherPanelId)
       this.fetchWebsites(this.motherPanelId);
     });
     this.editPanelForm = this.fb.group({
@@ -48,6 +53,7 @@ export class GetWebsiteList implements OnInit {
         [Validators.pattern(/^(http|https):\/\/[^ "]+$/)],
       ],
       website_logo_variant: [''],
+      website_logo_variant_second: [''],
       website_logo_web_variant: [''],
       website_logo_mobile_variant: [''],
       website_favicon_variant: [''],
@@ -55,10 +61,16 @@ export class GetWebsiteList implements OnInit {
   }
 
   fetchWebsites(id: any) {
+    this.loading = true
     this.apiService.getWebsiteList(id).subscribe((res: any) => {
+      this.loading = false
       this.websiteList.set(res.data);
       console.log(this.websiteList())
-    });
+    },
+      (err) => {
+        this.loading = false;
+        console.error('Failed to fetch users', err);
+      });
   }
 
   refreshComponent(): void {
@@ -72,13 +84,16 @@ export class GetWebsiteList implements OnInit {
   async confirmAndDeleteUser(userId: string) {
     const confirmed = await this.showConfirmation();
     if (!confirmed) return;
+    this.loading = true
 
     this.apiService.deleteWebsite(userId).subscribe({
       next: () => {
+        this.loading = false
         this.showToast('User deleted successfully');
         this.fetchWebsites(this.motherPanelId); // refresh list
       },
       error: () => {
+        this.loading = false
         this.showToast('Failed to delete user', true);
       },
     });
@@ -210,26 +225,24 @@ export class GetWebsiteList implements OnInit {
     });
   }
 
-  uploadBanner(formData: FormData): void {
+  uploadBanner(formData: FormData){
+    this.loading = true;
     // Replace with your service call
     this.apiService.addBanner(this.selectedPanelDetailId, formData).subscribe({
       next: (res) => {
-        Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Banner Added successfully',
-            showConfirmButton: false,
-            timer: 2000, // Close after 2 seconds
-          });
+        this.loading = false;
+        this.showToast('Banner Added successfully')
       },
       error: (err) => {
+        this.loading = false;
         console.error('Error uploading banner:', err);
-        Swal.fire('Error', 'Something went wrong!', 'error');
+        this.showToast('Something went wrong!',true)
       },
     });
   }
 
   openEditPanelModal(panel: any) {
+    console.log(panel,"panel")
     this.selectedPanelId = panel._id;
 
     this.editPanelForm.patchValue({
@@ -237,6 +250,7 @@ export class GetWebsiteList implements OnInit {
       website_url: panel.website_url || '',
       refresh_endpoint_url: panel.refresh_endpoint_url || '',
       website_logo_variant: panel.website_logo_variant || '',
+      website_logo_variant_second: panel.website_logo_variant_second || '',
       website_logo_web_variant: panel.website_logo_web_variant || '',
       website_logo_mobile_variant: panel.website_logo_mobile_variant || '',
       website_favicon_variant: panel.website_favicon_variant || '',
@@ -246,6 +260,9 @@ export class GetWebsiteList implements OnInit {
       website_logo: panel.website_logo
         ? `${panel.userId.cloud_image_url}${panel.website_logo}/${panel.website_logo_variant}`
         : null,
+      website_logo_second: panel.website_logo_second
+        ? `${panel.userId.cloud_image_url}${panel.website_logo_second}/${panel.website_logo_variant_second}`
+        : null,  
       website_logo_web: panel.website_logo_web
         ? `${panel.userId.cloud_image_url}${panel.website_logo_web}/${panel.website_logo_web_variant}`
         : null,
@@ -292,6 +309,7 @@ export class GetWebsiteList implements OnInit {
 
     [
       'website_logo',
+      'website_logo_second',
       'website_logo_web',
       'website_logo_mobile',
       'website_favicon',
@@ -301,29 +319,48 @@ export class GetWebsiteList implements OnInit {
       }
     });
 
+    console.log(formData)
+    
+    const modalEl = document.getElementById('editPanelModal');
+    const modalInstance = bootstrap.Modal.getInstance(modalEl!);
+    modalInstance?.hide();
+    this.loading = true;
+
     this.apiService
       .updateWebsite(this.selectedPanelId, formData)
       .subscribe({
         next: (res) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Website updated successfully',
-            showConfirmButton: false,
-            timer: 2000, // Close after 2 seconds
-          });
+          this.loading = false;
+          this.showToast('Website updated successfully')
 
-          const modalEl = document.getElementById('editPanelModal');
-          const modalInstance = bootstrap.Modal.getInstance(modalEl!);
-          modalInstance?.hide();
+          // const modalEl = document.getElementById('editPanelModal');
+          // const modalInstance = bootstrap.Modal.getInstance(modalEl!);
+          // modalInstance?.hide();
 
           this.editPanelForm.reset();
           this.fileData = {};
           this.fetchWebsites(this.motherPanelId); // refetch the list if needed
         },
         error: (err) => {
-          Swal.fire('Error', err.error?.message || 'Update failed', 'error');
+          this.loading = false;
+          this.showToast('Update failed',true)
         },
+      });
+  }
+
+  getUserData(id: any) {
+    this.loading = true
+    this.apiService
+      .getMotherPanelList(this.motherPanelId)
+      .subscribe((res: any) => {
+        this.loading = false
+        this.userId = res?.data?.userId?._id
+        this.userName = res?.data?.userId?.username
+        this.motherPanelName = res?.data?.mother_panel
+      },
+      (err) => {
+        this.loading = false;
+        console.error('Failed to fetch users', err);
       });
   }
 }

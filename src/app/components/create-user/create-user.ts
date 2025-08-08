@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 export class CreateUser implements OnInit {
   createUserForm!: FormGroup;
   apiError: string | null = null;
+  loading = false; 
 
   constructor(
     private fb: FormBuilder,
@@ -40,14 +41,19 @@ export class CreateUser implements OnInit {
       return;
     }
 
+    this.loading = true;
+
+    console.log(this.createUserForm.value)
     this.apiService.createUser(this.createUserForm.value).subscribe({
       next: (res) => {
+        this.loading = false;
         this.showToast('User Created successfully');
         this.createUserForm.reset(); // ✅ Reset the form
   
         // this.router.navigate(['/users-list']); // redirect to users list or any page
       },
       error: (err) => {
+        this.loading = false;
         this.showToast('Failed to Create user', true);
         console.error('User creation failed:', err);
       },

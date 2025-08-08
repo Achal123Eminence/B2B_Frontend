@@ -2,7 +2,7 @@
   <div class="card-body px-4 py-2">
     <div class="row align-items-center">
       <div class="col-9">
-        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">User List</h4>
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">{{websiteName}} Banner List</h4>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb" style="margin-bottom: 9px;">
             <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span><a class="text-muted" style="text-decoration: none;color: #aaa !important;" >Website list</a> <span style="color: white;"> • </span> User List</li>
@@ -72,4 +72,9 @@
   <div class="pagination">
     
   </div>
+</div>
+
+
+<div class="loader-overlay" *ngIf="loading">
+  <div class="spinner"></div>
 </div>

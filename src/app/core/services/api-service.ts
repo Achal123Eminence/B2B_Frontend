@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
-
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { environment } from '../../environment/environment';
 export class ApiService {
   private baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: User) {}
 
   login(obj: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/user/login`, obj);
@@ -71,6 +71,14 @@ export class ApiService {
       params = params.set('panelId', id);
     }
     return this.http.get(`${this.baseUrl}/details/getPanelDetails`,{ params })
+  }
+
+  getSingleWebsiteList(id?: string):Observable<any>{
+    let params = new HttpParams();
+    if (id) {
+      params = params.set('panelId', id);
+    }
+    return this.http.get(`${this.baseUrl}/details/getSingleWebsite`,{ params })
   }
 
   updateWebsite(panelDetailId:string,data:FormData){
