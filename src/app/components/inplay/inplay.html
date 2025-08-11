@@ -1,0 +1,80 @@
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;" >
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">{{panelDetailsName}}</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" style="margin-bottom: 9px;">
+            <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> <a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/mother-panel-list">Mother Panel List <span style="color: white;"> • </span> </a>Client Lists</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="user-form-container">
+  <form [formGroup]="addInplayForm" (ngSubmit)="onSubmit()">
+    <div class="sub-input">
+      <div class="form-row" style="width: 30%;">
+        <label>Cricket<span style="color: #dd8c8c;">(Image Size: 1080*309)</span></label>
+        <input type="file"  #cricket (change)="onFileChange($event, 'cricket_image')" />
+      </div>
+      <div class="form-row" style="width: 20%;">
+        <label>Cricket Variant</label>
+        <input type="text" formControlName="cricket_variant" style="padding: 8px;" />
+      </div>
+      <div class="form-row" style="width: 30%;">
+        <label>Virtual Cricket<span style="color: #dd8c8c;">(Image Size: 728*90)</span></label>
+        <input type="file"  #virtual (change)="onFileChange($event, 'virtual_image')" />
+      </div>
+      <div class="form-row" style="width: 20%;">
+        <label>Virtual Cricket Variant</label>
+        <input type="text" formControlName="virtual_variant" style="padding: 8px;" />
+      </div>
+    </div>
+    <div class="sub-input">
+      <div class="form-row" style="width: 50%;">
+        <img *ngIf="inplayData?.cricket_image" [src]="inplayData?.userId?.cloud_image_url + inplayData?.cricket_image + '/' + inplayData?.cricket_variant" alt="" srcset="">
+      </div>
+      <div class="form-row" style="width: 50%;">
+        <img *ngIf="inplayData?.virtual_image" [src]="inplayData?.userId?.cloud_image_url + inplayData?.virtual_image + '/' + inplayData?.virtual_variant" alt="" srcset="">
+      </div>
+    </div>
+    <div class="sub-input">
+      <div class="form-row" style="width: 30%;">
+        <label>Football<span style="color: #dd8c8c;">(Image Size: 1080*309)</span></label>
+        <input type="file"  #football (change)="onFileChange($event, 'football_image')" />
+      </div>
+      <div class="form-row" style="width: 20%;">
+        <label>Football Variant</label>
+        <input type="text" formControlName="football_variant" style="padding: 8px;" />
+      </div>
+      <div class="form-row" style="width: 30%;">
+        <label>Tennis<span style="color: #dd8c8c;">(Image Size: 1080*309)</span></label>
+        <input type="file"  #tennis (change)="onFileChange($event, 'tennis_image')" />
+      </div>
+      <div class="form-row" style="width: 20%;">
+        <label>Tennis Variant</label>
+        <input type="text" formControlName="tennis_variant" style="padding: 8px;" />
+      </div>
+    </div>
+    <div class="sub-input">
+      <div class="form-row" style="width: 50%;">
+        <img *ngIf="inplayData?.football_image" [src]="inplayData?.userId?.cloud_image_url + inplayData?.football_image + '/' + inplayData?.football_variant" alt="" srcset="">
+      </div>
+      <div class="form-row" style="width: 50%;">
+        <img *ngIf="inplayData?.tennis_image" [src]="inplayData?.userId?.cloud_image_url + inplayData?.tennis_image + '/' + inplayData?.tennis_variant" alt="" srcset="">
+      </div>
+    </div>
+    <div *ngIf="apiError" class="api-error"></div>
+    <div class="form-actions">
+      <button type="submit" class="btn save"><i class="fa fa-save"></i> Save</button>
+      <button type="button" class="btn cancel" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<div class="loader-overlay" *ngIf="loading">
+  <div class="spinner"></div>
+</div>

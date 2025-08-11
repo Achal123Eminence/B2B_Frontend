@@ -104,4 +104,12 @@ export class ApiService {
   updateBanner(bannerId:any,data:FormData){
     return this.http.put(`${this.baseUrl}/banner/update/${bannerId}`,data);
   }
+
+  addInplay(data:any){
+    return this.http.post(`${this.baseUrl}/inplay/add`,data);
+  }
+
+  getInplay(id:any){
+    return this.http.get(`${this.baseUrl}/inplay/get/${id}`);
+  }
 }

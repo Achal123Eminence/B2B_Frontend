@@ -8,6 +8,7 @@ import { AddMotherPanel } from './components/add-mother-panel/add-mother-panel';
 import { AddWebite } from './components/add-webite/add-webite';
 import { GetWebsiteList } from './components/get-website-list/get-website-list';
 import { GetBanners } from './components/get-banners/get-banners';
+import { Inplay } from './components/inplay/inplay';
 
 export const routes: Routes = [
     {path: '',redirectTo: 'login',pathMatch: 'full'},
@@ -19,5 +20,6 @@ export const routes: Routes = [
     {path:'add-mother-panel',component:AddMotherPanel},
     {path:'add-website/:panelId',component:AddWebite},
     {path:'website-list/:panelId',component:GetWebsiteList},
-    {path:'get-banners/:panelDetailsId',component:GetBanners}
+    {path:'get-banners/:panelDetailsId',component:GetBanners},
+    {path:'inplay/:panelDetailsId',component:Inplay}
 ];
