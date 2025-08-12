@@ -128,4 +128,12 @@ export class ApiService {
   updateFolder(id:any,data:any){
     return this.http.put(`${this.baseUrl}/folder/update/${id}`,data);
   }
+
+  deleteBody(id:any){
+    return this.http.delete(`${this.baseUrl}/body/remove/${id}`);
+  }
+
+  getBody(id:any){
+    return this.http.get(`${this.baseUrl}/body/get/${id}`);
+  }
 }

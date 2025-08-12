@@ -10,6 +10,7 @@ import { GetWebsiteList } from './components/get-website-list/get-website-list';
 import { GetBanners } from './components/get-banners/get-banners';
 import { Inplay } from './components/inplay/inplay';
 import { Folder } from './components/folder/folder';
+import { GetBody } from './components/get-body/get-body';
 
 export const routes: Routes = [
     {path: '',redirectTo: 'login',pathMatch: 'full'},
@@ -23,5 +24,6 @@ export const routes: Routes = [
     {path:'website-list/:panelId',component:GetWebsiteList},
     {path:'get-banners/:panelDetailsId',component:GetBanners},
     {path:'inplay/:panelDetailsId',component:Inplay},
-    {path:'folder',component:Folder}
+    {path:'folder',component:Folder},
+    {path:'body/:panelDetailsId',component:GetBody}
 ];
