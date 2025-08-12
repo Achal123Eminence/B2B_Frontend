@@ -9,6 +9,7 @@ import { AddWebite } from './components/add-webite/add-webite';
 import { GetWebsiteList } from './components/get-website-list/get-website-list';
 import { GetBanners } from './components/get-banners/get-banners';
 import { Inplay } from './components/inplay/inplay';
+import { Folder } from './components/folder/folder';
 
 export const routes: Routes = [
     {path: '',redirectTo: 'login',pathMatch: 'full'},
@@ -21,5 +22,6 @@ export const routes: Routes = [
     {path:'add-website/:panelId',component:AddWebite},
     {path:'website-list/:panelId',component:GetWebsiteList},
     {path:'get-banners/:panelDetailsId',component:GetBanners},
-    {path:'inplay/:panelDetailsId',component:Inplay}
+    {path:'inplay/:panelDetailsId',component:Inplay},
+    {path:'folder',component:Folder}
 ];

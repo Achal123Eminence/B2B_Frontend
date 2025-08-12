@@ -112,4 +112,20 @@ export class ApiService {
   getInplay(id:any){
     return this.http.get(`${this.baseUrl}/inplay/get/${id}`);
   }
+
+  addFolder(data:any){
+    return this.http.post(`${this.baseUrl}/folder/add`,data);
+  };
+
+  getFolderList(){
+    return this.http.get(`${this.baseUrl}/folder/get`);
+  }
+
+  removeFolder(id:any){
+    return this.http.delete(`${this.baseUrl}/folder/remove/${id}`)
+  }
+
+  updateFolder(id:any,data:any){
+    return this.http.put(`${this.baseUrl}/folder/update/${id}`,data);
+  }
 }

@@ -1,0 +1,171 @@
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;">
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-5">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">Folder List</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" style="margin-bottom: 9px;">
+            <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span><a class="text-muted" style="text-decoration: none;color: #aaa !important;" >Website list</a> <span style="color: white;"> • </span> User List</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col-7 multiBtn">
+        <button class="addBtn" (click)="openAddModal()">Add Folder</button>
+        <button class="importBtn">Import</button>
+        <button class="importCsvBtn">Import CSV</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="user-list-container">
+  <div class="controls">
+    <label>
+      Show
+      <select >
+        <option [value]="10">10</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+        <option [value]="100">100</option>
+      </select>
+      entries
+    </label>
+
+    <input
+      type="text"
+      placeholder="Search"
+    />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Mother Panel Name</th>
+        <th>Image Name</th>
+        <th>Image Url</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of folderList(); track $index) {
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{ item.panelId.mother_panel}}</td>
+          <td>{{ item.folder_name}}</td>
+          <td>{{ item.image_url}}</td>
+          <td class="btn-td">
+            <div>
+              <button class="edit-btn" (click)="openEditModal(item)">
+                <i class="fas fa-edit"></i>Edit
+              </button>
+              <button class="delete-btn" (click)="confirmAndDeleteFolder(item._id)">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    
+  </div>
+</div>
+
+
+<!-- Add Folder -->
+<div class="modal fade" id="addFolderModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="background: #2a3447; color: white;">
+      <div class="modal-header border-0" style="border-bottom: 1px solid #465670 !important;">
+        <h5 class="modal-title" style="font-size: 1rem;">Add Folder</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="addForm" (ngSubmit)="onSubmitAddFolder()">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Select Mother Panel</label>
+              <select class="form-select" formControlName="panelId">
+                <option value="">Select Mother Panel</option>
+                @for (item of motherPanellist(); track $index) {
+                    <option [value]="item._id">{{ item.mother_panel }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Folder Name</label>
+              <input type="text" class="form-control" formControlName="folder_name" placeholder="Enter name" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Image Url</label>
+              <input type="text" class="form-control" formControlName="image_url" placeholder="Enter name" />
+            </div>
+          </div>
+
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-warning px-4" [disabled]="addForm.invalid">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Folder -->
+<!-- Edit Folder -->
+<div class="modal fade" id="editFolderModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="background: #2a3447; color: white;">
+      <div class="modal-header border-0" style="border-bottom: 1px solid #465670 !important;">
+        <h5 class="modal-title" style="font-size: 1rem;">Edit Folder</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="editForm" (ngSubmit)="onSubmitEditFolder()">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Select Mother Panel</label>
+              <select class="form-select" formControlName="panelId">
+                <option value="">Select Mother Panel</option>
+                @for (item of motherPanellist(); track $index) {
+                  <option [value]="item._id">{{ item.mother_panel }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Folder Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="folder_name"
+                placeholder="Enter name"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Image Url</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="image_url"
+                placeholder="Enter URL"
+              />
+            </div>
+          </div>
+
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-warning px-4" [disabled]="editForm.invalid">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
