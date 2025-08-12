@@ -52,12 +52,12 @@
           <td>{{ item?.folderId?.image_url}}</td>
           <td>{{ item?.imageClass}}</td>
           <td>
-            <img src="{{item.panelDetailsId.userId.cloud_image_url}}{{item.image}}/{{item.folderVariant}}" alt="" srcset="">
+            <img src="{{item.panelDetailsId.userId.cloud_image_url}}{{item.image}}/{{item.bodyVariant}}" alt="" srcset="">
           </td>
           <td>{{ getTimeAgo(item.updatedAt) }}</td>
           <td class="btn-td">
             <div>
-              <button class="edit-btn">
+              <button class="edit-btn" (click)="openEditBodyModal(item)">
                 <i class="fas fa-edit"></i> Edit
               </button>
               <button class="delete-btn" (click)="confirmAndDeleteBanners(item._id)">
@@ -73,6 +73,91 @@
 
   <div class="pagination">
     
+  </div>
+</div>
+
+<!-- Edit Body Modal -->
+<div class="modal fade" id="editBodyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="background: #2a3447; color: white;">
+      <div class="modal-header border-0" style="border-bottom: 1px solid #465670 !important;">
+        <h5 class="modal-title" style="font-size: 1rem;">Edit Body</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="editBodyForm" (ngSubmit)="onSubmitEditBody()">
+          <div class="row g-3">
+            
+            <!-- Folder Name Dropdown -->
+            <div class="col-md-6">
+              <label class="form-label">Folder Name</label>
+              <select class="form-select" formControlName="folderId">
+                <option value="">Select Folder</option>
+                @for (item of folderList(); track $index) {
+                  <option [value]="item._id">{{ item.folder_name }}</option>
+                }
+              </select>
+            </div>
+
+            
+            <!-- Image Url -->
+            <div class="col-md-6">
+              <label class="form-label">Image Url</label>
+              <input class="form-control" [value]="imageUrl" readonly />
+            </div>
+
+            <!-- Position -->
+            <div class="col-md-6">
+              <label class="form-label">Position</label>
+              <input type="number" class="form-control" formControlName="imagePosition" placeholder="Enter position" />
+            </div>
+
+            <!-- Class Radio -->
+            <div class="col-md-6">
+              <label class="form-label d-flex">Class</label>
+              <div class="form-check form-check-inline">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="classSmall" value="entrance-half"
+                    formControlName="imageClass" />
+                  <label class="custom-control-label" for="classSmall">Small</label>
+                </div>
+              </div>
+            
+              <div class="form-check form-check-inline">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="classBig" value="no" formControlName="imageClass" />
+                  <label class="custom-control-label" for="classBig">Big</label>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Body Variant -->
+            <div class="col-md-6">
+              <label class="form-label">Body Variant</label>
+              <input type="text" class="form-control" formControlName="bodyVariant" placeholder="Enter variant" />
+            </div>
+
+                      <!-- Image Upload -->
+            <div class="col-md-6">
+              <label class="form-label">Image</label>
+              <input type="file" class="form-control" (change)="onImageSelected($event)" />
+              <div class="mt-2" *ngIf="previewImage">
+                <img [src]="previewImage" alt="Preview" style="max-height: 80px; border-radius: 4px;" />
+              </div>
+            </div>
+
+          </div>
+
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-warning px-4" [disabled]="editBodyForm.invalid || loading">
+              {{ loading ? 'Updating...' : 'Update' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 

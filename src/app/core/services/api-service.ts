@@ -136,4 +136,8 @@ export class ApiService {
   getBody(id:any){
     return this.http.get(`${this.baseUrl}/body/get/${id}`);
   }
+
+  updateBody(id:any,data:FormData){
+    return this.http.put(`${this.baseUrl}/body/update/${id}`,data);
+  }
 }
