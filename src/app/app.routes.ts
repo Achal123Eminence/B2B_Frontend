@@ -11,6 +11,7 @@ import { GetBanners } from './components/get-banners/get-banners';
 import { Inplay } from './components/inplay/inplay';
 import { Folder } from './components/folder/folder';
 import { GetBody } from './components/get-body/get-body';
+import { AddBody } from './components/add-body/add-body';
 
 export const routes: Routes = [
     {path: '',redirectTo: 'login',pathMatch: 'full'},
@@ -25,5 +26,6 @@ export const routes: Routes = [
     {path:'get-banners/:panelDetailsId',component:GetBanners},
     {path:'inplay/:panelDetailsId',component:Inplay},
     {path:'folder',component:Folder},
-    {path:'body/:panelDetailsId',component:GetBody}
+    {path:'body/:panelDetailsId',component:GetBody},
+    {path:'add-body/:panelDetailsId',component:AddBody},
 ];

@@ -1,0 +1,83 @@
+
+
+<div class="card bg-light-info shadow-none position-relative overflow-hidden" style="border: none;" >
+  <div class="card-body px-4 py-2">
+    <div class="row align-items-center">
+      <div class="col-9">
+        <h4 class="fw-semibold mb-8" style="color: white;font-size: 1.4rem;">{{websiteName}} Body</h4>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb" style="margin-bottom: 9px;">
+            <li class="breadcrumb-item" style="color: #aaa"><a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/home">Dashboard</a> <span style="color: white;"> • </span> <a class="text-muted" style="text-decoration: none;color: #aaa !important;" routerLink="/mother-panel-list">Website List <span style="color: white;"> • </span> </a>Body</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="user-form-container">
+  <h2 style="color: white;font-size: 1.1rem;font-weight: 400;">Multiple Images</h2>
+  <form [formGroup]="addBodyForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="bodyRows">
+    <div *ngFor="let row of bodyRows.controls; let i = index" [formGroupName]="i" class="row g-3 mb-3">
+
+      <!-- Folder Name Dropdown -->
+      <div class="col-md-2">
+        <select class="form-select" formControlName="folderId" (change)="onFolderChange(i)">
+          <option value="">Select Folder</option>
+          <option *ngFor="let item of folderList()" [value]="item._id">
+            {{ item.folder_name }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="col-md-2" *ngIf="selectedImageUrls[i]">
+        <input type="text" [value]="selectedImageUrls[i]" readonly class="readonly-input" />
+      </div>
+
+      <!-- Image Upload -->
+      <div class="col-md-2">
+        <input type="file" class="form-control" (change)="onImageSelected($event, i)" />
+      </div>
+
+      <!-- Image Position -->
+      <div class="col-md-2">
+        <input type="number" class="form-control" formControlName="imagePosition" placeholder="Position" />
+      </div>
+
+      <!-- Class -->
+      <div class="col-md-2 d-flex align-items-center">
+        <div class="form-check me-2">
+          <input type="radio" class="form-check-input" value="entrance-half" formControlName="imageClass" />
+          <label class="form-check-label">Small</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" value="no" formControlName="imageClass" />
+          <label class="form-check-label">Big</label>
+        </div>
+      </div>
+
+      <!-- Body Variant -->
+      <div class="col-md-2">
+        <input type="text" class="form-control" formControlName="bodyVariant" placeholder="Variant" />
+      </div>
+
+      <!-- Add/Remove Buttons -->
+      <div class="col-md-2 d-flex align-items-center">
+        <button *ngIf="i === 0" type="button" class="btn btn-primary me-1" (click)="addRow()">+</button>
+        <button *ngIf="i !== 0" type="button" class="btn btn-danger" (click)="removeRow(i)">-</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="text-end mt-4">
+    <button type="submit" class="btn btn-success px-4" [disabled]="loading">
+      {{ loading ? 'Saving...' : 'Save' }}
+    </button>
+  </div>
+</form>
+</div>
+
+<!-- <div class="loader-overlay" *ngIf="loading">
+  <div class="spinner"></div>
+</div> -->

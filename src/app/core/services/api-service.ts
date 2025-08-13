@@ -140,4 +140,8 @@ export class ApiService {
   updateBody(id:any,data:FormData){
     return this.http.put(`${this.baseUrl}/body/update/${id}`,data);
   }
+
+  addBody(id:any,data:FormData){
+    return this.http.post(`${this.baseUrl}/body/add/${id}`,data);
+  }
 }

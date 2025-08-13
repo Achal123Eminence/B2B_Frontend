@@ -100,7 +100,7 @@ export class UsersList implements OnInit {
       cloud_account_id: user.cloud_account_id || '',
       cloud_auth: user.cloud_auth || '',
       cloud_image_url: user.cloud_image_url || '',
-      password: user.password || '', // blank by default
+      password: user.encrypted_password || '', // blank by default
     });
 
     // Open Bootstrap modal
