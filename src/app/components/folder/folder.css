@@ -233,8 +233,8 @@ input[type="file"]::file-selector-button:hover {
 
 #editFolderModal select option{
   border: 1px solid #465670;
-  background-color: #2a3447;
-  color: #7C8FAC;
+  background-color: #677796;
+  color: #e9eaeb;
 }
 
 .modal-title{
@@ -266,10 +266,45 @@ input[type="file"]::file-selector-button:hover {
 
 #addFolderModal select option{
   border: 1px solid #465670;
-  background-color: #2a3447;
-  color: #7C8FAC;
+  background-color: #677796;
+  color: #e9eaeb;
 }
 
 #addFolderModal .modal-dialog {
   margin-top: -30px; /* Adjust as needed */
+}
+
+
+/* import folder model */
+
+#importFolderModal input{
+  border: 1px solid #465670;
+  background-color: #2a3447;
+  color: #7C8FAC;
+}
+
+
+#importFolderModal input::placeholder{
+  color: #7C8FAC;
+}
+
+#importFolderModal select{
+  border: 1px solid #465670;
+  background-color: #2a3447;
+  color: #7C8FAC;
+}
+
+
+#importFolderModal select option{
+  border: 1px solid #465670;
+  background-color: #677796;
+  color: #e9eaeb;
+}
+
+#importFolderModal .modal-dialog {
+  margin-top: -30px; /* Adjust as needed */
+}
+
+.edit-btn, .delete-btn{
+  color: white;
 }

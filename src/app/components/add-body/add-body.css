@@ -198,3 +198,11 @@ input[type="file"]::file-selector-button:hover {
 .form-label{
     color: #7C8FAC;
 }
+
+label{
+  color: #ffffff;
+}
+
+select{
+  padding: 8px 5px;
+}

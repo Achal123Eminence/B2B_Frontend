@@ -1,8 +1,15 @@
-import { Component, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal,
+  ChangeDetectorRef,
+  NgZone,
+} from '@angular/core';
 import { ApiService } from '../../core/services/api-service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-get-banners',
@@ -20,7 +27,9 @@ export class GetBanners implements OnInit {
   constructor(
     private apiService: ApiService,
     private activeRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -98,12 +107,24 @@ export class GetBanners implements OnInit {
     Swal.fire({
       title: 'Update Banner Image',
       html: `
-        <div style="text-align: left;">
-          <label style="font-weight: 400;font-size:1rem">Image <span style="color: #ff7b7b;">(Image Size: 1132×211)</span></label><br/>
-          <input type="file" style="font-size:1rem;width: 100%;border-radius: 10px;margin-top: 3px" id="bannerImage" class="swal2-file" accept="image/*" />
-          <img src="${data.userId.cloud_image_url}${data.banner}/${data.banner_variant}" alt="" srcset="" style="margin-top:10px;max-width:100%;width:10rem;height:4rem">
+      <div style="text-align: left;">
+       <div style="display:flex;gap:5px;">
+        <div style="width:50%">
+         <label style="font-weight: 400;font-size:1rem">Image <span style="color: #ff7b7b;">(Image Size: 1132×211)</span></label><br/>
+         <input type="file" style="font-size:1rem;width: 100%;border-radius: 10px;margin-top: 3px" id="bannerImage" class="swal2-file" accept="image/*" />
         </div>
-      `,
+        <div style="width:50%">
+         <label style="font-weight: 400;font-size:1rem;display:block">Banner Variant</label>
+         <input type="text" id="bannerVariant" value="${
+           data.banner_variant || ''
+         }" style="font-size:1rem;width: 100%;border-radius: 10px;margin-top: 5px;padding:8px;background:#374258;color:#b7c5df;border:1px solid white;" />
+        </div>
+       </div>
+        <img src="${data.userId.cloud_image_url}${data.banner}/${
+        data.banner_variant
+      }" alt="Banner Preview" style="margin-top:10px;max-width:100%;width:10rem;height:4rem;display:block" />
+      </div>
+    `,
       showCancelButton: true,
       confirmButtonText: 'Submit',
       cancelButtonText: 'Cancel',
@@ -116,24 +137,33 @@ export class GetBanners implements OnInit {
         const fileInput = document.getElementById(
           'bannerImage'
         ) as HTMLInputElement;
-        const file = fileInput?.files?.[0];
-        if (!file) {
-          Swal.showValidationMessage('Please select an image file');
+        const variantInput = document.getElementById(
+          'bannerVariant'
+        ) as HTMLInputElement;
+
+        const file = fileInput?.files?.[0] || null;
+        const variant = variantInput?.value?.trim() || '';
+
+        // Allow empty file if variant is changed
+        if (!file && variant === data.banner_variant) {
+          Swal.showValidationMessage(
+            'Please select an image or update the variant.'
+          );
           return;
         }
 
-        return file;
+        return { file, banner_variant: variant };
       },
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const file: File = result.value;
 
+        const { file, banner_variant } = result.value;
         const formData = new FormData();
-        formData.append('banner', file);
-        formData.append('image_type', 'image'); // hardcoded as you said
-        formData.append('banner_variant', 'Banner'); // optional if backend sets default
-
-        // 👇 Now call your uploadBanner API
+        if (file) {
+          formData.append('banner', file);
+        }
+        formData.append('banner_variant', banner_variant);
+        formData.append('image_type', 'image');
         this.uploadBanner(formData);
       }
     });
@@ -142,18 +172,20 @@ export class GetBanners implements OnInit {
   uploadBanner(formData: FormData): void {
     // Replace with your service call
     this.loading = true;
-    this.apiService.updateBanner(this.selectedBannerId, formData).subscribe({
-      next: (res) => {
-        this.loading = false;
-        this.showToast('Banner updated successfully');
-        this.fetchBanners(this.panelDetailId);
-      },
-      error: (err) => {
-        this.loading = false;
-        console.error('Error uploading banner:', err);
-        Swal.fire('Error', 'Something went wrong!', 'error');
-      },
-    });
+    this.apiService
+      .updateBanner(this.selectedBannerId, formData)
+      .subscribe({
+        next: () => {
+          this.loading = false;
+          this.showToast('Banner updated successfully');
+          this.fetchBanners(this.panelDetailId);
+        },
+        error: (err) => {
+          this.loading = false;
+          console.error('Error uploading banner:', err);
+          Swal.fire('Error', 'Something went wrong!', 'error');
+        },
+      });
   }
 
   getPanelDetailsData(id: any) {

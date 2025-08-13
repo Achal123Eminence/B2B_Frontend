@@ -129,6 +129,10 @@ export class ApiService {
     return this.http.put(`${this.baseUrl}/folder/update/${id}`,data);
   }
 
+  importFolder(data:any){
+    return this.http.post(`${this.baseUrl}/folder/import`,data);
+  }
+
   deleteBody(id:any){
     return this.http.delete(`${this.baseUrl}/body/remove/${id}`);
   }

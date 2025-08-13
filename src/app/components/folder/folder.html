@@ -11,7 +11,7 @@
       </div>
       <div class="col-7 multiBtn">
         <button class="addBtn" (click)="openAddModal()">Add Folder</button>
-        <button class="importBtn">Import</button>
+        <button class="importBtn" (click)="openimportFolderModal()" >Import</button>
         <button class="importCsvBtn">Import CSV</button>
       </div>
     </div>
@@ -163,6 +163,56 @@
 
           <div class="text-end mt-4">
             <button type="submit" class="btn btn-warning px-4" [disabled]="editForm.invalid">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="importFolderModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="background: #2a3447; color: white;">
+      <div class="modal-header border-0" style="border-bottom: 1px solid #465670 !important;">
+        <h5 class="modal-title" style="font-size: 1rem;">Import Folder</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="importFolderForm" (ngSubmit)="onSubmitImportFolder()">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Select Mother Panel</label>
+              <select class="form-select" formControlName="copyToPanelId">
+                <option value="">Select Mother Panel</option>
+                @for (item of motherPanellist(); track $index) {
+                  <option [value]="item._id">{{ item.mother_panel }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Copy From Mother Panel</label>
+              <select class="form-select" formControlName="copyFromPanelId">
+                <option value="">Select Mother Panel</option>
+                @for (item of motherPanellist(); track $index) {
+                  <option [value]="item._id">{{ item.mother_panel }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Import Method</label>
+              <select class="form-select" formControlName="importMethod">
+                <option value="">Select Mother Panel</option>
+                <option [value]="1">Only Folder</option>
+                <option [value]="2">Folder And Url</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-warning px-4" [disabled]="importFolderForm.invalid">Update</button>
           </div>
         </form>
       </div>

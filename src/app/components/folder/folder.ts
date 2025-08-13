@@ -23,6 +23,8 @@ export class Folder implements OnInit {
   motherPanellist = signal<any[]>([]);
   editForm!: FormGroup;
   selectedFolderId: string | null = null;
+  // import Folder Form
+  importFolderForm!: FormGroup;
 
   constructor(
     private apiService: ApiService,
@@ -42,6 +44,13 @@ export class Folder implements OnInit {
       folder_name: ['', Validators.required],
       image_url: ['', Validators.required],
     });
+    // import folder from
+    this.importFolderForm = this.fb.group({
+      copyToPanelId:['',Validators.required],
+      copyFromPanelId:['',Validators.required],
+      importMethod:['',Validators.required]
+    })
+
     this.fetchFolders();
     this.getMotherPanelList();
   }
@@ -56,7 +65,7 @@ export class Folder implements OnInit {
       },
       (err) => {
         this.loading = false;
-        this.showToast('Failed to get banners', true);
+        this.showToast(err.error.error, true);
         console.error('Failed to get banners', err);
       }
     );
@@ -91,7 +100,8 @@ export class Folder implements OnInit {
         this.fetchFolders(); // Refresh table
       },
       error: (err) => {
-        this.showToast('Update failed');
+        console.log(err)
+        this.showToast(err.error.error,true);
         this.loading = false;
       },
     });
@@ -129,9 +139,10 @@ export class Folder implements OnInit {
           this.fetchFolders(); // refresh table
         },
         error: (err) => {
+          console.log(err)
           this.loading = false;
           this.showToast(
-            err?.error?.message || 'Failed to update folder',
+            err.error.error || 'Failed to update folder',
             true
           );
         },
@@ -151,9 +162,9 @@ export class Folder implements OnInit {
         this.showToast('Folder deleted successfully');
         this.fetchFolders(); // refresh list
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.showToast('Failed to delete Folder', true);
+        this.showToast(err.error.error, true);
       },
     });
   }
@@ -181,6 +192,32 @@ export class Folder implements OnInit {
       showConfirmButton: false,
       timer: 2000,
       timerProgressBar: true,
+    });
+  }
+
+  openimportFolderModal() {
+    const modal = document.getElementById('importFolderModal');
+    if (modal) new bootstrap.Modal(modal).show();
+  }
+
+  onSubmitImportFolder() {
+    this.loading = true;
+    if (this.importFolderForm.invalid) return;
+
+    this.apiService.importFolder(this.importFolderForm.value).subscribe({
+      next: () => {
+        this.loading = false;
+        this.showToast('Folders Imported successfully');
+        this.importFolderForm.reset();
+        const modalEl = document.getElementById('importFolderModal');
+        if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
+
+        this.fetchFolders(); // Refresh table
+      },
+      error: (err) => {
+        this.showToast(err.error.error,true);
+        this.loading = false;
+      },
     });
   }
 }

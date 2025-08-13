@@ -151,3 +151,7 @@ input{
   }
 }
 /* loader */
+
+.edit-btn, .delete-btn{
+  color: white;
+}

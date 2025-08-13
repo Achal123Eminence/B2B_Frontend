@@ -194,3 +194,7 @@ input[type="file"]::file-selector-button:hover {
     font-size: 1.4rem !important;
     font-weight: 400;
 }
+
+.edit-btn, .delete-btn{
+  color: white;
+}

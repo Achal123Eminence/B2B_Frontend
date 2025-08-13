@@ -31,7 +31,7 @@
       </div>
       
       <div class="col-md-2" *ngIf="selectedImageUrls[i]">
-        <input type="text" [value]="selectedImageUrls[i]" readonly class="readonly-input" />
+        <input type="text" [value]="selectedImageUrls[i]" readonly class="readonly-input" style="padding: 8px 5px;border-radius: 0.375rem;" />
       </div>
 
       <!-- Image Upload -->
@@ -41,7 +41,7 @@
 
       <!-- Image Position -->
       <div class="col-md-2">
-        <input type="number" class="form-control" formControlName="imagePosition" placeholder="Position" />
+        <input type="number" class="form-control" formControlName="imagePosition" placeholder="Position" style="padding: 8px 5px;border-radius: 0.375rem;" />
       </div>
 
       <!-- Class -->
@@ -58,7 +58,7 @@
 
       <!-- Body Variant -->
       <div class="col-md-2">
-        <input type="text" class="form-control" formControlName="bodyVariant" placeholder="Variant" />
+        <input type="text" class="form-control" formControlName="bodyVariant" placeholder="Variant" style="padding: 8px 5px;border-radius: 0.375rem;" />
       </div>
 
       <!-- Add/Remove Buttons -->
