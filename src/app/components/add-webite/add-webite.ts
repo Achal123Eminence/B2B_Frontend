@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import {
   FormBuilder,
   Validators,
@@ -35,7 +35,8 @@ export class AddWebite implements OnInit {
     private fb: FormBuilder,
     private apiService: ApiService,
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -123,6 +124,7 @@ export class AddWebite implements OnInit {
         this.fileData = {};
         this.resetFileInputs(); // ✅ Clear file input fields
         // this.router.navigate(['/users-list']); // redirect to users list or any page
+        this.cd.detectChanges();
       },
       error: (err) => {
         this.loading = false; // ✅ Stop loader
@@ -162,6 +164,7 @@ export class AddWebite implements OnInit {
         this.userId = res?.data?.userId?._id;
         this.userName = res?.data?.userId?.username;
         this.motherPanelName = res?.data?.mother_panel;
+        this.cd.detectChanges();
         console.log(this.userId,this.userName,this.motherPanelName,"this.userId,this.userName,this.motherPanelName")
         // this.loading = false;
       },

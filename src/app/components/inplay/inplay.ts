@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import {
   FormBuilder,
   Validators,
@@ -36,7 +36,8 @@ export class Inplay implements OnInit {
     private fb: FormBuilder,
     private apiService: ApiService,
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +68,7 @@ export class Inplay implements OnInit {
             tennis_variant: this.inplayData.tennis_variant,
           });
         }
+        this.cd.detectChanges();
       },
       (err) => {
         this.loading = false;
@@ -110,17 +112,18 @@ export class Inplay implements OnInit {
       }
     });
 
-    // this.loading = true;
+    this.loading = true;
 
     this.apiService.addInplay(formData).subscribe({
       next: (res) => {
         this.loading = false; 
         console.log(res,"add inplay api")
+        this.getInplayData(this.panelDetailsId);
+        this.getPanelDetailsData(this.panelDetailsId)
         this.showToast('Website  Created successfully');
         this.addInplayForm.reset();
         this.fileData = {};
         this.resetFileInputs();
-        this.getInplayData(this.panelDetailsId);
       },
       error: (err) => {
         this.loading = false; 
@@ -152,6 +155,7 @@ export class Inplay implements OnInit {
         this.panelDetailsName = res.data.website_name;
         this.userId = res.data.userId;
         this.panelId = res.data.panelId._id;
+        this.cd.detectChanges();
       },
       (err) => {
         this.loading = false;

@@ -5,12 +5,15 @@ import {
   ViewChild,
   ElementRef,
   signal,
+  ChangeDetectorRef,
+  NgZone 
 } from '@angular/core';
 import { ApiService } from '../../core/services/api-service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
 declare var bootstrap: any;
 
 @Component({
@@ -36,7 +39,9 @@ export class GetWebsiteList implements OnInit {
     private apiService: ApiService,
     private activeRoute: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef,
+    private ngZone: NgZone,
   ) {}
 
   ngOnInit(): void {
@@ -159,16 +164,21 @@ export class GetWebsiteList implements OnInit {
       },
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        const file: File = result.value;
+        this.loading = true;
+        this.cd.detectChanges();
+        setTimeout(()=>{
 
-        const formData = new FormData();
-        formData.append('banner', file);
-        // formData.append('panelDetailId',this.selectedPanelDetailId || '' );
-        formData.append('image_type', 'image'); // hardcoded as you said
-        // formData.append('banner_variant', 'default'); // optional if backend sets default
-
-        // 👇 Now call your uploadBanner API
-        this.uploadBanner(formData);
+          const file: File = result.value;
+          
+          const formData = new FormData();
+          formData.append('banner', file);
+          // formData.append('panelDetailId',this.selectedPanelDetailId || '' );
+          formData.append('image_type', 'image'); // hardcoded as you said
+          // formData.append('banner_variant', 'default'); // optional if backend sets default
+          
+          // 👇 Now call your uploadBanner API
+          this.uploadBanner(formData);
+        })
       }
     });
   }
@@ -228,13 +238,19 @@ export class GetWebsiteList implements OnInit {
   uploadBanner(formData: FormData){
     this.loading = true;
     // Replace with your service call
-    this.apiService.addBanner(this.selectedPanelDetailId, formData).subscribe({
-      next: (res) => {
+    this.apiService
+    .addBanner(this.selectedPanelDetailId, formData)
+    .pipe(finalize(() => {
+      this.ngZone.run(()=>{
         this.loading = false;
+        this.cd.detectChanges()
+      })
+    }))
+    .subscribe({
+      next: () => {
         this.showToast('Banner Added successfully')
       },
       error: (err) => {
-        this.loading = false;
         console.error('Error uploading banner:', err);
         this.showToast('Something went wrong!',true)
       },
@@ -351,7 +367,7 @@ export class GetWebsiteList implements OnInit {
   getUserData(id: any) {
     this.loading = true
     this.apiService
-      .getMotherPanelList(this.motherPanelId)
+      .getMotherPanelList(id)
       .subscribe((res: any) => {
         this.loading = false
         this.userId = res?.data?.userId?._id
