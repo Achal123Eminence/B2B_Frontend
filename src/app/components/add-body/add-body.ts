@@ -42,12 +42,12 @@ export class AddBody implements OnInit {
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe((param: any) => {
       this.panelDetailId = param.get('panelDetailsId');
+      this.getFolderList(this.panelDetailId); // To populate dropdown
     });
     this.addBodyForm = this.fb.group({
       bodyRows: this.fb.array([this.createBodyRow()]),
     });
 
-    this.getFolderList(); // To populate dropdown
   }
   get bodyRows(): FormArray {
     return this.addBodyForm.get('bodyRows') as FormArray;
@@ -73,7 +73,6 @@ export class AddBody implements OnInit {
       (res: any) => {
         this.loading = false;
         this.websiteName = res.data.website_name;
-        console.log(this.websiteName, 'this.websiteName');
       },
       (err) => {
         this.loading = false;
@@ -83,13 +82,13 @@ export class AddBody implements OnInit {
     );
   }
 
-  getFolderList() {
+  getFolderList(id:any) {
     this.loading = true;
-    this.apiService.getFolderList().subscribe(
+    this.apiService.folderDataList(id).subscribe(
       (res: any) => {
         this.loading = false;
-        this.folderList.set(res.data);
-        console.log(this.folderList(), 'this.folder()');
+        this.folderList.set(res.folders);
+        console.log(this.folderList())
       },
       (err) => {
         this.loading = false;
@@ -124,7 +123,6 @@ export class AddBody implements OnInit {
 
   onSubmit(): void {
     this.loading = true;
-    console.log(this.addBodyForm.value, 'this.addBodyForm.value');
     if (this.addBodyForm.invalid) {
       Swal.fire('Error', 'Please fill all required fields', 'error');
       return;

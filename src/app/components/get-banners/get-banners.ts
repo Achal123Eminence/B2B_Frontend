@@ -46,7 +46,6 @@ export class GetBanners implements OnInit {
       (res: any) => {
         this.loading = false;
         this.bannerList.set(res.data);
-        console.log(this.bannerList());
       },
       (err) => {
         this.loading = false;
@@ -194,7 +193,6 @@ export class GetBanners implements OnInit {
       (res: any) => {
         this.loading = false;
         this.websiteName = res.data.website_name;
-        console.log(this.websiteName, 'this.websiteName');
       },
       (err) => {
         this.loading = false;

@@ -43,7 +43,6 @@ export class CreateUser implements OnInit {
 
     this.loading = true;
 
-    console.log(this.createUserForm.value)
     this.apiService.createUser(this.createUserForm.value).subscribe({
       next: (res) => {
         this.loading = false;

@@ -25,6 +25,11 @@ export class Folder implements OnInit {
   selectedFolderId: string | null = null;
   // import Folder Form
   importFolderForm!: FormGroup;
+  fileData: any = {};
+  //Csv folder form
+  importCsvForm!:FormGroup;
+  panelDetaillist = signal<any[]>([]);
+
 
   constructor(
     private apiService: ApiService,
@@ -50,6 +55,11 @@ export class Folder implements OnInit {
       copyFromPanelId:['',Validators.required],
       importMethod:['',Validators.required]
     })
+    // import Csv folder
+    this.importCsvForm = this.fb.group({
+      panelId:['',Validators.required],
+      panelDetailId:['',Validators.required]
+    })
 
     this.fetchFolders();
     this.getMotherPanelList();
@@ -61,7 +71,6 @@ export class Folder implements OnInit {
       (res: any) => {
         this.loading = false;
         this.folderList.set(res.data);
-        console.log(this.folderList());
       },
       (err) => {
         this.loading = false;
@@ -76,7 +85,6 @@ export class Folder implements OnInit {
     this.apiService.getMotherPanelList().subscribe((res: any) => {
       this.loading = false;
       this.motherPanellist.set(res?.data?.items || []);
-      console.log(this.motherPanellist());
     });
   }
 
@@ -100,7 +108,6 @@ export class Folder implements OnInit {
         this.fetchFolders(); // Refresh table
       },
       error: (err) => {
-        console.log(err)
         this.showToast(err.error.error,true);
         this.loading = false;
       },
@@ -109,7 +116,6 @@ export class Folder implements OnInit {
 
   // Open Edit Modal and Prefill Data
   openEditModal(folder: any) {
-    console.log(folder,"folder")
     this.selectedFolderId = folder._id;
     this.editForm.patchValue({
       panelId: folder.panelId?._id || '',
@@ -139,7 +145,6 @@ export class Folder implements OnInit {
           this.fetchFolders(); // refresh table
         },
         error: (err) => {
-          console.log(err)
           this.loading = false;
           this.showToast(
             err.error.error || 'Failed to update folder',
@@ -150,7 +155,6 @@ export class Folder implements OnInit {
   }
 
   async confirmAndDeleteFolder(mId: string) {
-    console.log(mId);
     const confirmed = await this.showConfirmation();
     if (!confirmed) return;
 
@@ -219,5 +223,64 @@ export class Folder implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  openCsvModal() {
+    const modal = document.getElementById('importCsvModal');
+    if (modal) new bootstrap.Modal(modal).show();
+  }
+
+  onFileChange(event: any, field: string) {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileData[field] = file;
+    }
+  }
+
+  onSubmitCsvFolder() {
+    if (this.importCsvForm.invalid) {
+      return
+    };
+
+    const { panelId, panelDetailId } = this.importCsvForm.value;
+    const formData = new FormData();
+
+    formData.append('panelId', panelId);
+    formData.append('panelDetailId', panelDetailId);
+
+    // Append files
+    if (this.fileData.csv_file) {
+      formData.append('csv_file', this.fileData.csv_file);
+    }
+    this.loading = true;
+
+    this.apiService.importCsvFolder(formData).subscribe({
+      next: () => {
+        this.loading = false;
+        this.showToast('CSV and Image uploaded successfully');
+        this.importCsvForm.reset();
+        const modalEl = document.getElementById('importCsvModal');
+        if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
+        // Refresh if needed
+      },
+      error: (err: any) => {
+        this.loading = false;
+        console.error(err);
+        this.showToast('Error uploading files', true);
+      },
+    });
+  }
+
+  fetchWebsites() {
+    const panelId = this.importCsvForm.get('panelId')?.value;
+    this.loading = true
+    this.apiService.getWebsiteList(panelId).subscribe((res: any) => {
+      this.loading = false
+      this.panelDetaillist.set(res.data);
+    },
+      (err) => {
+        this.loading = false;
+        console.error('Failed to fetch users', err);
+      });
   }
 }

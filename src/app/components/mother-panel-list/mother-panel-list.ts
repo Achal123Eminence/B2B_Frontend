@@ -36,7 +36,6 @@ export class MotherPanelList implements OnInit {
     this.apiService.getUserList().subscribe((res: any) => {
       this.loading = false;
       this.userslist.set(res?.data?.users || []);
-      console.log(this.userslist());
     },
       (err) => {
         this.loading = false;
@@ -49,7 +48,6 @@ export class MotherPanelList implements OnInit {
     this.apiService.getMotherPanelList().subscribe((res: any) => {
       this.loading = false
       this.motherPanelList.set(res?.data?.items || []);
-      console.log(this.motherPanelList());
     },
       (err) => {
         this.loading = false;
@@ -58,7 +56,6 @@ export class MotherPanelList implements OnInit {
   }
 
   async confirmAndDeleteMotherPanel(mId: string) {
-    console.log('delete hit');
     const confirmed = await this.showConfirmation();
     if (!confirmed) return;
 

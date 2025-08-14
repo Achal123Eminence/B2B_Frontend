@@ -117,7 +117,6 @@ export class Inplay implements OnInit {
     this.apiService.addInplay(formData).subscribe({
       next: (res) => {
         this.loading = false; 
-        console.log(res,"add inplay api")
         this.getInplayData(this.panelDetailsId);
         this.getPanelDetailsData(this.panelDetailsId)
         this.showToast('Website  Created successfully');
@@ -151,7 +150,6 @@ export class Inplay implements OnInit {
     this.apiService.getSingleWebsiteList(id).subscribe(
       (res: any) => {
         this.loading = false;
-        console.log(res.data,"res.data")
         this.panelDetailsName = res.data.website_name;
         this.userId = res.data.userId;
         this.panelId = res.data.panelId._id;

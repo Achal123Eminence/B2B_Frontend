@@ -70,7 +70,6 @@ export class GetWebsiteList implements OnInit {
     this.apiService.getWebsiteList(id).subscribe((res: any) => {
       this.loading = false
       this.websiteList.set(res.data);
-      console.log(this.websiteList())
     },
       (err) => {
         this.loading = false;
@@ -78,12 +77,19 @@ export class GetWebsiteList implements OnInit {
       });
   }
 
-  refreshComponent(): void {
+  refreshComponent(id:any): void {
+    console.log("refreshComponent")
     const currentUrl = this.router.url;
-
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentUrl]);
-    });
+    this.apiService.refreshPanelDeatails(id).subscribe((res:any)=>{
+      console.log(res);
+      if (res) {
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate([currentUrl]);
+          });
+      }
+    })
   }
 
   async confirmAndDeleteUser(userId: string) {
@@ -191,7 +197,7 @@ export class GetWebsiteList implements OnInit {
       html: `
       <div style="text-align: left;">
         <label style="font-weight: 400;font-size:1rem">Image</label><br/>
-        <input type="file" style="font-size:1rem;width: 100%;border-radius: 10px;margin-top: 3px" id="bannerImage" class="swal2-file" accept=".csv" />
+        <input type="file" accept=".csv,text/csv" style="font-size:1rem;width: 100%;border-radius: 10px;margin-top: 3px" id="bannerImage" class="swal2-file" accept=".csv" />
       </div>
     `,
       showCancelButton: true,
@@ -258,7 +264,6 @@ export class GetWebsiteList implements OnInit {
   }
 
   openEditPanelModal(panel: any) {
-    console.log(panel,"panel")
     this.selectedPanelId = panel._id;
 
     this.editPanelForm.patchValue({
@@ -289,8 +294,6 @@ export class GetWebsiteList implements OnInit {
         ? `${panel.userId.cloud_image_url}${panel.website_favicon}/${panel.website_favicon_variant}`
         : null,
     };
-
-    console.log(this.imagePreviews,"this.imagePreviews");
 
     this.fileData = {};
 
@@ -335,8 +338,6 @@ export class GetWebsiteList implements OnInit {
       }
     });
 
-    console.log(formData)
-    
     const modalEl = document.getElementById('editPanelModal');
     const modalInstance = bootstrap.Modal.getInstance(modalEl!);
     modalInstance?.hide();

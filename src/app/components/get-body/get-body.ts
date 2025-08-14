@@ -55,7 +55,6 @@ export class GetBody implements OnInit {
       (res: any) => {
         this.loading = false;
         this.websiteName = res.data.website_name;
-        console.log(this.websiteName, 'this.websiteName');
       },
       (err) => {
         this.loading = false;
@@ -71,7 +70,6 @@ export class GetBody implements OnInit {
       (res: any) => {
         this.loading = false;
         this.folderList.set(res.data);
-        console.log(this.folderList(),"this.folder()");
       },
       (err) => {
         this.loading = false;
@@ -87,7 +85,6 @@ export class GetBody implements OnInit {
       (res: any) => {
         this.loading = false;
         this.bodyList.set(res.bodies);
-        console.log(this.bodyList());
       },
       (err) => {
         this.loading = false;
@@ -145,7 +142,6 @@ export class GetBody implements OnInit {
 
   // Open modal with pre-filled data
   openEditBodyModal(body: any) {
-    console.log(body,"body")
     this.selectedBodyId = body._id;
     this.previewImage = body.image
       ? body.panelDetailsId.userId.cloud_image_url + body.image + '/' + body.bodyVariant

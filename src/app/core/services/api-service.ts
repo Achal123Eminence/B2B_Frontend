@@ -133,6 +133,10 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/folder/import`,data);
   }
 
+  folderDataList(id:any){
+    return this.http.get(`${this.baseUrl}/folder/data-List/${id}`)
+  }
+
   deleteBody(id:any){
     return this.http.delete(`${this.baseUrl}/body/remove/${id}`);
   }
@@ -147,5 +151,13 @@ export class ApiService {
 
   addBody(id:any,data:FormData){
     return this.http.post(`${this.baseUrl}/body/add/${id}`,data);
+  }
+
+  importCsvFolder(data:FormData){
+    return this.http.post(`${this.baseUrl}/folder/import-csv`,data);
+  }
+
+  refreshPanelDeatails(id:any,data:any={}){
+    return this.http.post(`${this.baseUrl}/details/refresh/${id}`,data);
   }
 }

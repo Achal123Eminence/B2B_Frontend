@@ -165,7 +165,6 @@ export class AddWebite implements OnInit {
         this.userName = res?.data?.userId?.username;
         this.motherPanelName = res?.data?.mother_panel;
         this.cd.detectChanges();
-        console.log(this.userId,this.userName,this.motherPanelName,"this.userId,this.userName,this.motherPanelName")
         // this.loading = false;
       },
       error: (err) => {

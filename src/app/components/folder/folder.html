@@ -12,7 +12,7 @@
       <div class="col-7 multiBtn">
         <button class="addBtn" (click)="openAddModal()">Add Folder</button>
         <button class="importBtn" (click)="openimportFolderModal()" >Import</button>
-        <button class="importCsvBtn">Import CSV</button>
+        <button class="importCsvBtn" (click)="openCsvModal()" >Import CSV</button>
       </div>
     </div>
   </div>
@@ -213,6 +213,53 @@
 
           <div class="text-end mt-4">
             <button type="submit" class="btn btn-warning px-4" [disabled]="importFolderForm.invalid">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Import Csv Folder -->
+<div class="modal fade" id="importCsvModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="background: #2a3447; color: white;">
+      <div class="modal-header border-0" style="border-bottom: 1px solid #465670 !important;">
+        <h5 class="modal-title" style="font-size: 1rem;">Import CSV</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="importCsvForm" (ngSubmit)="onSubmitCsvFolder()">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Select Mother Panel</label>
+              <select class="form-select" formControlName="panelId" (change)="fetchWebsites()">
+                <option value="">Select Mother Panel</option>
+                @for (item of motherPanellist(); track $index) {
+                  <option [value]="item._id">{{ item.mother_panel }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Select Website</label>
+              <select class="form-select" formControlName="panelDetailId">
+                <option value="">Select Website</option>
+                @for (item of panelDetaillist(); track $index) {
+                  <option [value]="item._id">{{ item.website_name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6" style="display: grid;">
+              <label class="form-label">Upload File</label>
+              <input type="file" accept=".csv,text/csv" #csvFile (change)="onFileChange($event, 'csv_file')" />
+            </div>
+          </div>
+
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-warning px-4" [disabled]="importCsvForm.invalid">Update</button>
           </div>
         </form>
       </div>
